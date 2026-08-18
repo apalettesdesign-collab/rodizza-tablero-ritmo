@@ -1,56 +1,3141 @@
-<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
-<title>Tablero de Ritmo · Prototipo Rodizza</title><style>
-:root{--navy:#11173A;--blue:#2257F4;--ink:#20243A;--muted:#646B7F;--line:#DDE1EC;--pale:#F5F6FA;--green:#238258;--greenbg:#E5F4EC;--yellow:#B97A12;--yellowbg:#FFF2D6;--red:#B33A3A;--redbg:#FCE8E5;--bluebg:#E9EFFF}
-*{box-sizing:border-box}body{margin:0;background:#f2f4f9;color:var(--ink);font-family:Arial,Helvetica,sans-serif}.app{max-width:1180px;margin:auto;padding:16px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.brand{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--blue)}.muted{color:var(--muted);font-size:12px}.signal{border-radius:18px;padding:20px 22px;color:#fff;display:flex;justify-content:space-between;gap:20px;align-items:center}.signal.green{background:var(--green)}.signal.yellow{background:var(--yellow)}.signal.red{background:var(--red)}.signal h1{font-size:34px;margin:0}.signal p{margin:4px 0 0}.reasons{text-align:right;font-size:13px;max-width:52%}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.metric{background:#fff;border:1px solid var(--line);border-radius:14px;padding:13px}.metric label{font-size:11px;color:var(--muted)}.metric strong{display:block;font-size:25px;color:var(--navy);margin-top:4px}.metric small{font-size:11px;color:var(--muted)}.shared{display:grid;grid-template-columns:1fr 1fr;gap:12px}.view{background:#fff;border:1px solid var(--line);border-radius:15px;padding:14px}.view h2{font-size:16px;margin:0 0 3px;color:var(--navy)}.view h3{font-size:11px;color:var(--blue);letter-spacing:.08em;text-transform:uppercase;margin:13px 0 6px}.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:var(--bluebg);border-radius:999px;padding:7px 10px;font-size:12px}.chip.greenchip{background:var(--greenbg);color:var(--green);font-weight:700}.alert{background:var(--yellowbg);color:#714b09;border-radius:9px;padding:9px;font-weight:700;font-size:12px;margin-top:8px}.controls{background:#fff;border:1px solid var(--line);border-radius:15px;margin-top:12px;overflow:hidden}.controls summary{padding:13px 15px;font-weight:700;color:var(--navy);cursor:pointer}.controlgrid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line);border-top:1px solid var(--line)}.controlarea{background:#fff;padding:14px}.controlarea h2{font-size:15px;margin:0 0 10px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px}.field{background:var(--pale);border-radius:10px;padding:9px}.field.span2{grid-column:1/-1}.field label{display:block;font-size:10px;color:var(--muted);margin-bottom:5px}.step{display:grid;grid-template-columns:38px 1fr 38px;gap:5px;align-items:center}.step button{height:36px;border:1px solid var(--line);background:#fff;border-radius:9px;font-size:20px}.step output{text-align:center;font-weight:700;font-size:18px}.field input[type=text],.field select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;background:#fff;color:var(--ink)}.pizzatags{display:flex;flex-wrap:wrap;gap:6px}.pizzatag{border:1px solid #cfd5e5;background:#fff;color:var(--navy);border-radius:999px;padding:7px 10px;font-size:11px;font-weight:700;cursor:pointer}.pizzatag.selected{border-color:var(--blue);background:var(--blue);color:#fff}.pizzatags.circulating .pizzatag.selected{border-color:var(--green);background:var(--green);color:#fff}.nextselects{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}.nextslot label{font-size:9px;margin:0 0 4px;color:var(--blue);font-weight:800}.toggle{display:flex;align-items:center;justify-content:space-between}.toggle input{width:22px;height:22px}.footerbar{display:flex;justify-content:space-between;gap:10px;align-items:center;margin-top:10px}.footerbar button{border:1px solid var(--line);background:#fff;border-radius:9px;padding:9px 12px}.assumptions{font-size:11px;color:var(--muted);margin-top:12px}.source{display:inline-block;background:#eef0f6;border-radius:5px;padding:2px 5px;font-size:9px;color:var(--muted);margin-left:4px}.strike{color:var(--red);font-weight:700}@media(max-width:760px){.cards{grid-template-columns:1fr 1fr}.shared,.controlgrid{grid-template-columns:1fr}.signal{align-items:flex-start;flex-direction:column}.reasons{text-align:left;max-width:100%}.fields{grid-template-columns:1fr 1fr}.nextselects{grid-template-columns:1fr}}
-.lineup{background:#fff;border:1px solid var(--line);border-radius:15px;margin-top:12px;padding:14px}.lineuphead{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}.lineup h2{font-size:16px;color:var(--navy);margin:0 0 4px}.lineuptools{display:flex;flex-wrap:wrap;gap:6px;align-items:center}.lineuptools select,.lineuptools button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:8px;font-size:12px}.lineuptools button{font-weight:700;color:var(--navy);cursor:pointer}.lineuptools .primary{background:var(--blue);border-color:var(--blue);color:#fff}.lineuptrack{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-top:12px}.pizzaorder{border:0;background:var(--pale);border-radius:9px;padding:8px;min-height:62px;display:flex;gap:7px;align-items:center;text-align:left;cursor:pointer}.pizzaorder:hover{outline:2px solid var(--green)}.pizzaorder.now{background:var(--bluebg);outline:2px solid var(--blue)}.pizzaorder.next{background:var(--yellowbg)}.pizzaorder .ordernum{width:23px;height:23px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center;font-size:9px;flex:none}.pizzaorder .ordercopy{display:block;flex:1}.pizzaorder b{font-size:11px;color:var(--navy)}.pizzaorder small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.lineuphint{background:var(--greenbg);color:var(--green);border-radius:9px;padding:9px 12px;font-size:12px;font-weight:700}@media(max-width:900px){.lineuphead{display:block}.lineuptools{margin-top:10px}.lineuptrack{grid-template-columns:repeat(4,1fr)}}@media(max-width:560px){.lineuptrack{grid-template-columns:repeat(2,1fr)}}
-</style></head><body><main class="app">
-<div class="top"><div><div class="brand">PULSO · RODIZZA · TABLERO DE RITMO</div><div class="muted">Prototipo para descubrir la información correcta</div></div><div id="updated" class="muted">Sin actualizar</div></div>
-<section id="signal" class="signal green"><div><h1 id="signalTitle">Estable</h1><p id="signalSub">Demanda y capacidad equilibradas</p></div><div id="reasons" class="reasons">La señal se calcula a partir de los datos del turno.</div></section>
-<section class="cards">
- <div class="metric"><label>Personas sentadas <span class="source">Xetux?</span></label><strong id="mPeople">0</strong><small id="mOcc">0% de capacidad</small></div>
- <div class="metric"><label>Demanda próxima <span class="source">reservas</span></label><strong id="mReserve">0</strong><small id="mReserveMin">sin reserva próxima</small></div>
- <div class="metric"><label>Capacidad cocina <span class="source">KDS?</span></label><strong id="mRacks">6/6</strong><small id="mRackUse">0 racks ocupados</small></div>
- <div class="metric"><label>Delivery <span class="source">Xetux?</span></label><strong id="mDelivery">0</strong><small id="mOldest">sin cola</small></div>
-</section>
-<section class="shared">
- <article class="view"><h2>Lo que cocina necesita saber de sala</h2><h3>Ahora</h3><div class="chips"><span class="chip" id="kTables">0 mesas</span><span class="chip" id="kPeople">0 personas</span><span class="chip" id="kRequests">0 solicitudes repetidas</span></div><h3>Lo que viene</h3><div id="kComing" class="alert">Sin golpe próximo</div><h3>Demanda por sabor</h3><div class="chips"><span class="chip" id="kFlavor">Sin sabor agregado</span></div></article>
- <article class="view"><h2>Lo que sala necesita saber de cocina</h2><h3>En producción</h3><div class="chips"><span class="chip greenchip" id="sCurrent">Circulando: —</span><span class="chip" id="sNext">Próximas: —</span></div><h3>Presión de cocina</h3><div class="chips"><span class="chip" id="sRacks">0/6 racks</span><span class="chip" id="sDelay">sin retraso</span><span class="chip" id="sDelivery">0 deliverys</span></div><h3>Disponibilidad</h3><div id="sUnavailable" class="alert" style="display:none"></div></article>
-</section>
-<section class="lineup"><div class="lineuphead"><div><h2>Orden de pizzas</h2><div class="muted">El orden se actualiza según lo que realmente sale, no según lo planificado.</div></div><div class="lineuphint">Haz clic directamente sobre la pizza que salió</div></div><div id="lastPizzaOut" class="alert" style="display:none"></div><div id="lineupTrack" class="lineuptrack"></div></section>
-<details class="controls" open><summary>Control de simulación · cada área actualiza sus datos</summary><div class="controlgrid">
- <section class="controlarea"><h2>Sala / anfitriona</h2><div class="fields" id="salaFields"></div></section>
- <section class="controlarea"><h2>Cocina</h2><div class="fields" id="kitchenFields"></div></section>
-</div></details>
-<div class="footerbar"><span class="muted">Los umbrales son hipótesis editables; el equipo debe cuestionarlos.</span><button id="reset">Reiniciar sesión</button></div>
-<details class="assumptions"><summary>Ver reglas automáticas que estamos probando</summary><p>Amarillo: ocupación actual ≥60%, ocupación proyectada ≥75%, reserva de ≥8 personas en ≤20 min, delivery ≥3, racks usados ≥80%, solicitud repetida ≥4, pedido más viejo ≥10 min o retraso ≥5 min. Rojo: ocupación ≥85%, proyección ≥95% en ≤10 min, delivery ≥5, pedido más viejo ≥20 min, rotación detenida, retraso ≥10 min o capacidad reducida con alta demanda. Estas reglas son hipótesis, no políticas finales.</p></details>
-</main><script>
-const PIZZAS=["Margarita","Pepperoni","Italiana","Pollo","Cuatro quesos","Rodizza","Cochino frito","Vegetal","Pepperoni picante","Española","Rodizza blanca","Mexicana","Champiñones","Prosciutto","Hawaiana caliente","Blanca tocineta","Mortadela","Ajoporro","Parrillera","Trufa","Caprese","Tiramisú","Sencilla","Ovomaltina"];
-const DEF={tables:0,people:0,capacity:60,reserve:0,reserveMin:40,requests:0,requestFlavor:"",requestFlavors:[],passers:3,racksUsed:0,racksAvailable:6,delivery:0,oldest:0,delay:0,rotationStopped:false,current:"",circulatingFlavors:[],next:"",unavailable:"",lastOut:"",lineup:PIZZAS.slice()};
-let st=Object.assign({},DEF,JSON.parse(localStorage.getItem("rodizza-board-v1")||"{}"));
-if(!Array.isArray(st.lineup)||st.lineup.length!==PIZZAS.length||new Set(st.lineup).size!==PIZZAS.length)st.lineup=PIZZAS.slice();
-else st.lineup=st.lineup.slice();
-if(!Array.isArray(st.requestFlavors))st.requestFlavors=st.requestFlavor?[st.requestFlavor]:[];
-if(!Array.isArray(st.circulatingFlavors))st.circulatingFlavors=[];
-st.current=st.lineup[0];
-st.next=st.lineup.slice(1,4).join(" · ");
-const SALA=[["tables","Mesas ocupadas",1],["people","Personas sentadas",1],["capacity","Capacidad de personas",5],["reserve","Personas reservadas",1],["reserveMin","Reserva entra en (min)",5],["requests","Solicitudes de sabores seleccionados",1],["passers","Pasadores disponibles",1],["requestFlavors","Sabores solicitados · puedes elegir varios","pizzaMulti"]];
-const KITCHEN=[["racksUsed","Racks ocupados",1],["racksAvailable","Racks disponibles",1],["delivery","Deliverys en cola",1],["oldest","Pedido más antiguo (min)",5],["delay","Retraso producción (min)",1],["rotationStopped","Rotación detenida","toggle"],["circulatingFlavors","Sabores circulando · puedes marcar varios","pizzaMultiGreen"],["next","Próximos sabores","nextPizzas"],["unavailable","No disponible / bloqueo","pizza"]];
-function pizzaOptions(selected,emptyLabel){return (emptyLabel!==false?'<option value="">'+emptyLabel+'</option>':'')+PIZZAS.map(p=>'<option value="'+p+'" '+(p===selected?"selected":"")+'>'+p+'</option>').join("")}
-function field([k,l,t]){if(t==="pizza")return '<div class="field"><label>'+l+'</label><select data-key="'+k+'">'+pizzaOptions(st[k]||"","Seleccionar sabor")+'</select></div>';if(t==="pizzaMulti"||t==="pizzaMultiGreen")return '<div class="field span2"><label>'+l+'</label><div class="pizzatags '+(t==="pizzaMultiGreen"?"circulating":"")+'">'+PIZZAS.map(p=>'<button type="button" class="pizzatag '+(st[k].includes(p)?"selected":"")+'" data-flavor-key="'+k+'" data-flavor="'+p+'">'+p+'</button>').join("")+'</div></div>';if(t==="nextPizzas")return '<div class="field span2"><label>'+l+' · elegir aquí también reordena el lineup</label><div class="nextselects">'+[1,2,3].map((pos,i)=>'<div class="nextslot"><label>'+(i+1)+'ª PRÓXIMA</label><select data-next-index="'+pos+'">'+pizzaOptions(st.lineup[pos],false)+'</select></div>').join("")+'</div></div>';if(t==="toggle")return '<div class="field toggle"><label>'+l+'</label><input type="checkbox" data-key="'+k+'" '+(st[k]?"checked":"")+'></div>';return '<div class="field"><label>'+l+'</label><div class="step"><button data-key="'+k+'" data-delta="-'+t+'">−</button><output id="o-'+k+'">'+st[k]+'</output><button data-key="'+k+'" data-delta="'+t+'">+</button></div></div>'}
-document.querySelector("#salaFields").innerHTML=SALA.map(field).join("");document.querySelector("#kitchenFields").innerHTML=KITCHEN.map(field).join("");
-document.addEventListener("click",e=>{let lineupPizza=e.target.closest("button[data-lineup-pizza]");if(lineupPizza){registerPizzaOut(lineupPizza.dataset.lineupPizza);return}let flavorButton=e.target.closest("button[data-flavor-key]");if(flavorButton){let key=flavorButton.dataset.flavorKey,flavor=flavorButton.dataset.flavor;st[key]=st[key].includes(flavor)?st[key].filter(p=>p!==flavor):[...st[key],flavor];save();return}let b=e.target.closest("button[data-key]");if(!b)return;let k=b.dataset.key,d=+b.dataset.delta;st[k]=Math.max(0,(+st[k]||0)+d);if(k==="racksUsed")st[k]=Math.min(st.racksAvailable,st[k]);save()});
-document.addEventListener("input",e=>{let nextIndex=e.target.dataset.nextIndex;if(nextIndex){let name=e.target.value,pos=+nextIndex,order=st.lineup.filter(p=>p!==name);order.splice(pos,0,name);st.lineup=order;syncRotation();save();return}let k=e.target.dataset.key;if(!k)return;if(k==="current"){let name=e.target.value,order=st.lineup.filter(p=>p!==name);order.unshift(name);st.lineup=order;syncRotation();save();return}st[k]=e.target.type==="checkbox"?e.target.checked:e.target.value;save()});
-function syncRotation(){st.current=st.lineup[0];st.next=st.lineup.slice(1,4).join(" · ")}
-function registerPizzaOut(name){let oldPosition=st.lineup.indexOf(name)+1;st.lineup=[...st.lineup.filter(p=>p!==name),name];if(!st.circulatingFlavors.includes(name))st.circulatingFlavors=[...st.circulatingFlavors,name];st.lastOut=name+(oldPosition>1?" · salió antes de la posición "+oldPosition:" · siguió la rotación");syncRotation();save()}
-document.querySelector("#reset").onclick=()=>{if(confirm("¿Reiniciar todos los datos de la sesión?")){st={...DEF,requestFlavors:[],circulatingFlavors:[],lineup:PIZZAS.slice()};localStorage.removeItem("rodizza-board-v1");location.reload()}};
-function calc(){let occ=st.capacity?st.people/st.capacity:0,projected=st.capacity?(st.people+(st.reserveMin<=20?st.reserve:0))/st.capacity:0,rackRate=st.racksAvailable?st.racksUsed/st.racksAvailable:0;let yellow=[],red=[];
-if(occ>=.6)yellow.push("ocupación "+Math.round(occ*100)+"%");if(projected>=.75)yellow.push("demanda proyectada "+Math.round(projected*100)+"%");if(st.reserve>=8&&st.reserveMin<=20)yellow.push(st.reserve+" personas llegan en "+st.reserveMin+" min");if(st.delivery>=3)yellow.push(st.delivery+" deliverys");if(rackRate>=.8)yellow.push("hornos cerca de capacidad");if(st.requests>=4)yellow.push(st.requests+" solicitudes de "+(st.requestFlavors.length?st.requestFlavors.join(", "):"sabores"));if(st.oldest>=10)yellow.push("delivery más viejo "+st.oldest+" min");if(st.delay>=5)yellow.push("retraso "+st.delay+" min");
-if(occ>=.85)red.push("ocupación crítica");if(projected>=.95&&st.reserveMin<=10)red.push("demanda próxima supera capacidad");if(st.delivery>=5)red.push("cola de delivery alta");if(st.oldest>=20)red.push("delivery excedido");if(st.rotationStopped)red.push("rotación detenida");if(st.delay>=10)red.push("retraso severo");if(st.racksAvailable<=3&&occ>=.6)red.push("capacidad reducida con alta demanda");
-return {occ,projected,rackRate,state:red.length?"red":yellow.length?"yellow":"green",reasons:red.length?red:yellow}}
-function text(id,v){document.getElementById(id).textContent=v}function save(){localStorage.setItem("rodizza-board-v1",JSON.stringify(st));render()}
-function renderLineup(){document.querySelector("#lineupTrack").innerHTML=st.lineup.map((name,i)=>'<button type="button" class="pizzaorder '+(i===0?"now":i<4?"next":"")+'" data-lineup-pizza="'+name+'"><span class="ordernum">'+(i+1)+'</span><span class="ordercopy"><b>'+name+'</b><small>Clic cuando salga</small></span></button>').join("")}
-function render(){for(const [k] of [...SALA,...KITCHEN]){let o=document.getElementById("o-"+k);if(o)o.textContent=st[k];let input=document.querySelector('[data-key="'+k+'"]:not(button)');if(input&&document.activeElement!==input){if(input.type==="checkbox")input.checked=!!st[k];else input.value=st[k]}}document.querySelectorAll("[data-flavor-key]").forEach(button=>button.classList.toggle("selected",st[button.dataset.flavorKey].includes(button.dataset.flavor)));document.querySelectorAll("[data-next-index]").forEach(input=>{if(document.activeElement!==input)input.value=st.lineup[+input.dataset.nextIndex]});renderLineup();let lastOut=document.getElementById("lastPizzaOut");lastOut.style.display=st.lastOut?"block":"none";lastOut.textContent=st.lastOut?("Última salida: "+st.lastOut):"";let c=calc(),sig=document.querySelector("#signal");sig.className="signal "+c.state;let map={green:["Estable","Demanda y capacidad equilibradas"],yellow:["Viene el golpe","Hay que anticipar y coordinar"],red:["Saturación","La demanda amenaza superar la capacidad"]};text("signalTitle",map[c.state][0]);text("signalSub",map[c.state][1]);text("reasons",c.reasons.length?"Por: "+c.reasons.join(" · "):"Sin condiciones de alerta activas.");
-text("mPeople",st.people);text("mOcc",Math.round(c.occ*100)+"% de capacidad");text("mReserve",st.reserve);text("mReserveMin",st.reserve?(st.reserveMin+" min para llegar"):"sin reserva próxima");text("mRacks",st.racksAvailable-st.racksUsed+"/"+st.racksAvailable);text("mRackUse",st.racksUsed+" racks ocupados");text("mDelivery",st.delivery);text("mOldest",st.delivery?(st.oldest+" min el más antiguo"):"sin cola");
-text("kTables",st.tables+" mesas");text("kPeople",st.people+" personas");text("kRequests",st.requests+" solicitudes registradas");text("kComing",st.reserve&&st.reserveMin<=25?("Viene el golpe: "+st.reserve+" personas en "+st.reserveMin+" min"):"Sin golpe próximo");text("kFlavor",st.requestFlavors.length?(st.requestFlavors.join(" · ")+" · "+st.requests+" solicitudes"):"Sin sabor agregado");
-text("sCurrent","Circulando: "+(st.circulatingFlavors.length?st.circulatingFlavors.join(" · "):"—"));text("sNext","Próximas: "+(st.next||"—"));text("sRacks",st.racksUsed+"/"+st.racksAvailable+" racks");text("sDelay",st.delay?("retraso "+st.delay+" min"):"sin retraso");text("sDelivery",st.delivery+" deliverys");let u=document.querySelector("#sUnavailable");u.style.display=st.unavailable?"block":"none";u.textContent=st.unavailable?("No disponible: "+st.unavailable):"";text("updated","Actualizado "+new Date().toLocaleTimeString([],{hour:"2-digit",minute:"2-digit"}))}
-render();</script></body></html>
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Tablero de Ritmo · Rodizza · Pulso</title>
+<meta name="description" content="Prototipo de tablero operativo compartido para el rodizio de Rodizza. Pulso.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ===========================================================================
+   Tablero de Ritmo · Rodizza · Pulso
+   Identidad: Poppins, azul marino #0E1435, azul eléctrico #0F3BFE, blanco.
+   Regla de accesibilidad: ningún estado se comunica sólo con color.
+   =========================================================================== */
+
+:root {
+  --navy: #0E1435;
+  --blue: #0F3BFE;
+  --blue-suave: #E8EDFF;
+  --lavanda: #CDB2F7;
+  --menta: #B6FFEA;
+  --lima: #D3FF48;
+  --teal: #0EA88A;
+
+  --tinta: #1A1F3D;
+  --muted: #666E8A;
+  --linea: #E1E5F0;
+  --fondo: #F4F6FB;
+  --panel: #FFFFFF;
+
+  --ok: #0B7A54;
+  --ok-bg: #E4F6EE;
+  --warn: #9A6106;
+  --warn-bg: #FFF3DA;
+  --mal: #B22B2B;
+  --mal-bg: #FDEAE7;
+  --info-bg: #EDF1FF;
+
+  --r: 14px;
+  --r-s: 10px;
+  --toque: 44px;
+  --sombra: 0 1px 2px rgba(14, 20, 53, .05), 0 8px 24px rgba(14, 20, 53, .05);
+}
+
+* { box-sizing: border-box; }
+
+html, body { max-width: 100%; overflow-x: hidden; }
+
+body {
+  margin: 0;
+  background: var(--fondo);
+  color: var(--tinta);
+  font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif;
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+}
+
+h1, h2, h3 { font-family: 'Poppins', sans-serif; color: var(--navy); margin: 0; }
+b, strong { font-weight: 600; }
+.muted { color: var(--muted); font-size: 12.5px; font-weight: 400; }
+.alerta-txt { color: var(--mal); font-weight: 600; }
+.ok-txt { color: var(--ok); font-weight: 600; }
+.flecha { color: var(--blue); font-weight: 700; padding: 0 2px; }
+
+/* --- Iconos --------------------------------------------------------------- */
+.ic {
+  width: 15px; height: 15px; flex: none;
+  fill: none; stroke: currentColor; stroke-width: 1.9;
+  stroke-linecap: round; stroke-linejoin: round;
+  vertical-align: -2px;
+}
+
+/* --- Foco visible --------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--blue);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* --- Cabecera ------------------------------------------------------------- */
+.cabecera {
+  position: sticky; top: 0; z-index: 20;
+  background: var(--navy);
+  color: #fff;
+  padding: 10px 16px 0;
+  box-shadow: 0 2px 14px rgba(14, 20, 53, .16);
+}
+.cab-fila { max-width: 1240px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; }
+.marca { display: flex; align-items: baseline; gap: 7px; font-size: 13px; letter-spacing: .04em; flex: 0 1 auto; min-width: 0; }
+.marca span { white-space: nowrap; }
+.marca-pulso { font-weight: 700; color: var(--lima); letter-spacing: .16em; }
+.marca-sep { opacity: .5; }
+.marca-nombre { font-weight: 500; color: #fff; }
+.barra-global { flex: 0 0 auto; display: flex; align-items: center; gap: 10px; font-size: 12px; color: #C7CEEA; flex-wrap: wrap; }
+.barra-global .disp, .barra-global .hora { display: inline-flex; align-items: center; gap: 5px; }
+.barra-global .btn { background: rgba(255,255,255,.1); border-color: rgba(255,255,255,.25); color: #fff; }
+.barra-global .btn[disabled] { opacity: .4; }
+
+.tabs { max-width: 1240px; margin-left: auto; margin-right: auto; display: flex; gap: 4px; flex-wrap: wrap; margin-top: 10px; }
+.tab {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 40px; padding: 8px 14px;
+  border: 0; border-radius: 10px 10px 0 0;
+  background: rgba(255,255,255,.07); color: #D5DBF2;
+  font-family: inherit; font-size: 13px; font-weight: 500; cursor: pointer;
+}
+.tab:hover { background: rgba(255,255,255,.16); color: #fff; }
+.tab.act { background: var(--fondo); color: var(--navy); font-weight: 600; }
+
+/* --- Contenedor ----------------------------------------------------------- */
+.app { max-width: 1240px; margin: 0 auto; padding: 16px; display: grid; gap: 14px; }
+.dobles { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: start; }
+.dobles > * { min-width: 0; }
+
+/* --- Señal del turno ------------------------------------------------------ */
+.senal {
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  border-radius: var(--r); padding: 18px 22px; color: #fff; flex-wrap: wrap;
+}
+.senal-etiqueta { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: .12em; text-transform: uppercase; opacity: .85; }
+.senal h1 { font-size: 30px; color: #fff; margin: 2px 0 0; line-height: 1.1; }
+.senal p { margin: 2px 0 0; font-size: 13.5px; opacity: .92; }
+.senal-razones { margin: 0; padding-left: 18px; font-size: 13px; max-width: 52%; opacity: .95; }
+.senal-razones li { margin: 1px 0; }
+.s-normal { background: linear-gradient(105deg, #0B7A54, #0EA88A); }
+.s-advertencia { background: linear-gradient(105deg, #9A6106, #C98A16); }
+.s-saturado { background: linear-gradient(105deg, #96201F, #C7413B); }
+
+/* --- Métricas ------------------------------------------------------------- */
+.metricas { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+.metrica { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--r); padding: 13px 15px; min-width: 0; }
+.metrica-cab { display: flex; align-items: center; gap: 6px; font-size: 11.5px; color: var(--muted); font-weight: 500; }
+.metrica strong { display: block; font-size: 27px; font-weight: 600; color: var(--navy); line-height: 1.2; }
+.metrica small { color: var(--muted); font-size: 11.5px; }
+
+/* --- Paneles -------------------------------------------------------------- */
+.panel {
+  background: var(--panel); border: 1px solid var(--linea);
+  border-radius: var(--r); padding: 16px; box-shadow: var(--sombra); min-width: 0;
+}
+.panel-cab { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; margin-bottom: 10px; }
+.panel h2 { font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 7px; }
+.panel h3 { font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: var(--blue); margin: 14px 0 7px; font-weight: 600; }
+.panel.doble { box-shadow: none; }
+.aviso-panel { border-color: #F0C9C4; background: var(--mal-bg); }
+
+.ayuda {
+  display: flex; gap: 7px; align-items: flex-start;
+  background: var(--blue-suave); color: #22317F;
+  border-radius: var(--r-s); padding: 8px 11px; font-size: 12.5px; margin: 0 0 12px;
+}
+.supuesto {
+  display: flex; gap: 7px; align-items: flex-start;
+  background: var(--warn-bg); color: var(--warn);
+  border-radius: var(--r-s); padding: 8px 11px; font-size: 12.5px; margin: 0 0 12px;
+}
+.nota { display: flex; gap: 7px; align-items: flex-start; font-size: 12.5px; margin: 8px 0 0; }
+.n-alerta { color: var(--warn); }
+
+/* --- Vista compartida ----------------------------------------------------- */
+.compartido { background: var(--panel); border: 1px solid var(--linea); border-radius: var(--r); box-shadow: var(--sombra); }
+.compartido > summary {
+  display: flex; align-items: center; gap: 8px;
+  padding: 13px 16px; cursor: pointer; font-weight: 600; color: var(--navy); font-size: 14px;
+  min-height: var(--toque);
+}
+.compartido .dobles { padding: 0 12px 12px; }
+
+/* --- Chips ---------------------------------------------------------------- */
+.chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.chips.mini .chip { font-size: 11px; padding: 3px 8px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--info-bg); color: var(--navy);
+  border-radius: 999px; padding: 5px 11px; font-size: 12px; font-weight: 500;
+}
+.c-alerta { background: var(--mal-bg); color: var(--mal); }
+.c-ok { background: var(--ok-bg); color: var(--ok); }
+.c-neutro { background: #F0F2F8; color: var(--muted); }
+.c-lista { background: var(--ok-bg); color: var(--ok); }
+.c-horno { background: var(--warn-bg); color: var(--warn); }
+.c-favorito { background: #F3ECFE; color: #5B32B5; }
+.c-postre { background: #FDE8F3; color: #A32168; }
+.c-bloqueado { background: #F0F2F8; color: var(--mal); text-decoration: line-through solid rgba(178,43,43,.4); }
+
+.aviso { display: flex; gap: 8px; align-items: center; background: var(--info-bg); border-radius: var(--r-s); padding: 10px 12px; font-size: 13px; font-weight: 500; }
+.aviso.a-alerta { background: var(--warn-bg); color: var(--warn); }
+
+/* --- Etiquetas de estado (icono + texto) ---------------------------------- */
+.etiqueta {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 7px; padding: 3px 8px; font-size: 11.5px; font-weight: 600;
+  border: 1px solid transparent;
+}
+.e-cola { background: #F0F2F8; color: #4A5170; border-color: #DFE3EF; }
+.e-prep { background: var(--info-bg); color: #2540B8; border-color: #C9D5FF; }
+.e-horno { background: var(--warn-bg); color: var(--warn); border-color: #F2DCAE; }
+.e-lista { background: var(--ok-bg); color: var(--ok); border-color: #B9E3CF; }
+.e-sala { background: #E7F7FF; color: #0B5C79; border-color: #B6E2F2; }
+.e-completada { background: #F0F2F8; color: var(--muted); border-color: #DFE3EF; }
+.e-cancelada { background: var(--mal-bg); color: var(--mal); border-color: #F0C9C4; }
+.t-favorito { background: #F3ECFE; color: #5B32B5; border-color: #DCC9FA; }
+.t-alergia { background: var(--mal-bg); color: var(--mal); border-color: #F0C9C4; }
+.t-postre { background: #FDE8F3; color: #A32168; border-color: #F6C9E0; }
+.t-delivery { background: #E7F7FF; color: #0B5C79; border-color: #B6E2F2; }
+
+/* --- Botones -------------------------------------------------------------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  min-height: var(--toque); padding: 10px 15px;
+  border: 1px solid var(--linea); border-radius: var(--r-s);
+  background: #fff; color: var(--navy);
+  font-family: inherit; font-size: 13.5px; font-weight: 500; cursor: pointer;
+}
+.btn:hover:not([disabled]) { border-color: var(--blue); color: var(--blue); }
+.btn[disabled] { opacity: .45; cursor: not-allowed; }
+.btn.primario { background: var(--blue); border-color: var(--blue); color: #fff; font-weight: 600; }
+.btn.primario:hover:not([disabled]) { background: #0B2FD1; color: #fff; }
+.btn.peligro { border-color: #E9BDB8; color: var(--mal); }
+.btn.pequeno { min-height: 38px; padding: 7px 11px; font-size: 12.5px; }
+.acciones { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 12px; }
+
+/* --- Segmentado ----------------------------------------------------------- */
+.segmentado { display: inline-flex; flex-wrap: wrap; gap: 4px; background: #F0F2F8; padding: 4px; border-radius: 12px; }
+.seg {
+  display: inline-flex; align-items: center; gap: 6px;
+  min-height: 38px; padding: 7px 12px; border: 0; border-radius: 9px;
+  background: transparent; color: var(--muted);
+  font-family: inherit; font-size: 12.5px; font-weight: 500; cursor: pointer;
+}
+.seg:hover { color: var(--navy); }
+.seg.act { background: #fff; color: var(--navy); font-weight: 600; box-shadow: 0 1px 3px rgba(14,20,53,.12); }
+
+.selector-rol { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; background: var(--panel); border: 1px solid var(--linea); border-radius: var(--r); padding: 10px 14px; }
+
+/* --- Formularios ---------------------------------------------------------- */
+label { font-size: 11.5px; color: var(--muted); font-weight: 500; display: block; margin-bottom: 4px; }
+input[type=text], input[type=number], select {
+  width: 100%; min-height: var(--toque);
+  border: 1px solid var(--linea); border-radius: var(--r-s);
+  padding: 10px 11px; background: #fff; color: var(--tinta);
+  font-family: inherit; font-size: 14px;
+}
+select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23666E8A' stroke-width='1.8' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+
+.form-linea {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px; align-items: end; margin-top: 12px;
+  background: #FAFBFE; border: 1px solid var(--linea); border-radius: var(--r-s); padding: 12px;
+}
+.form-linea > div { min-width: 0; }
+.form-linea .ancho { grid-column: span 2; }
+.form-linea .btn { align-self: end; }
+
+.fila { margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; }
+.fila > label { width: 100%; margin: 0; }
+
+.contador { display: inline-grid; grid-template-columns: var(--toque) 74px var(--toque); gap: 4px; }
+.contador input { text-align: center; font-weight: 600; font-size: 16px; }
+.btn-cont {
+  min-height: var(--toque); border: 1px solid var(--linea); border-radius: var(--r-s);
+  background: #fff; font-size: 20px; color: var(--navy); cursor: pointer; font-family: inherit;
+}
+.btn-cont:hover { border-color: var(--blue); color: var(--blue); }
+
+/* --- Mapa de mesas -------------------------------------------------------- */
+.mapa { display: grid; gap: 16px; }
+.area-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
+.area-cab h3 { font-size: 14px; display: flex; align-items: center; gap: 7px; }
+.punto { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+.area-nota { font-size: 11.5px; color: var(--muted); margin: 0 0 8px; }
+
+/* Plano: las mesas se dibujan como muebles, con sus sillas alrededor, y cada
+   una ocupa el ancho que le corresponde según su capacidad. */
+.mesas { display: flex; flex-wrap: wrap; gap: 14px 16px; align-items: flex-start; }
+.mesa {
+  position: relative; display: grid; gap: 7px; text-align: left;
+  border: 1.5px solid var(--linea); border-radius: 12px; padding: 12px 12px 10px;
+  background: #fff; font-family: inherit; color: var(--tinta); cursor: pointer;
+  min-width: 136px;
+}
+
+.mesa-plano { position: relative; display: flex; align-items: center; justify-content: center; padding: 6px 2px 2px; }
+.mesa-cuerpo {
+  display: grid; gap: 3px; text-align: left; width: 100%;
+  border: 0; background: none; padding: 2px 0 0; margin: 0;
+  font-family: inherit; font-size: 11.5px; color: var(--muted); cursor: pointer;
+}
+.plano-mesa { display: block; overflow: visible; }
+.plano-mesa .tablero { fill: #fff; stroke: var(--navy); stroke-width: 1.7; }
+.plano-mesa .silla { pointer-events: none; fill: #fff; stroke: #C6CDE0; stroke-width: 1.4; transition: fill .12s, stroke .12s; }
+.plano-mesa .silla.ocupada { fill: var(--blue); stroke: var(--blue); }
+
+/* Área de toque de cada puesto: invisible, más grande que la silla. */
+.silla-toque { fill: transparent; cursor: pointer; outline: none; }
+.silla-grupo:hover .silla { stroke: var(--blue); stroke-width: 2; }
+.silla-grupo:hover .silla:not(.ocupada) { fill: var(--blue-suave); }
+.silla-toque:focus-visible { outline: none; }
+.silla-grupo:focus-within .silla { stroke: var(--blue); stroke-width: 2.4; }
+.plano-mesa .rotulo { pointer-events: none; font-family: inherit; font-size: 14px; font-weight: 600; fill: var(--navy); letter-spacing: .02em; }
+
+.m-libre .plano-mesa .tablero { fill: #FAFBFE; stroke: #C6CDE0; stroke-dasharray: 4 3; }
+.m-libre .plano-mesa .rotulo { fill: var(--muted); }
+.m-reservada .plano-mesa .tablero { fill: #F7F3FE; stroke: var(--lavanda); }
+.m-reservada .plano-mesa .silla { stroke: var(--lavanda); }
+.sin-servicio .plano-mesa .tablero { stroke: var(--mal); }
+.sin-servicio .plano-mesa .silla.ocupada { fill: var(--mal); stroke: var(--mal); }
+.sel .plano-mesa .tablero { stroke: var(--blue); stroke-width: 2.4; }
+
+/* El reloj de la mesa va sobre el tablero, justo debajo del número, para no
+   taparle una silla. */
+.timer.sobre {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%) translateY(9px);
+  padding: 2px 7px; font-size: 11px; box-shadow: 0 1px 2px rgba(14,20,53,.08);
+}
+.mesa:hover { border-color: var(--blue); }
+.mesa { cursor: pointer; }
+.mesa.sel { border-color: var(--blue); box-shadow: 0 0 0 3px var(--blue-suave); }
+.mesa.m-libre { background: #FAFBFE; border-style: dashed; }
+.mesa.m-reservada { background: #F7F3FE; border-color: var(--lavanda); }
+.mesa.m-ocupada { background: #fff; }
+.mesa.sin-servicio { border-color: #E9BDB8; background: #FFF9F8; }
+.mesa-cab { display: flex; justify-content: space-between; align-items: center; gap: 6px; }
+.mesa-cuerpo { padding-top: 2px; }
+.mesa-id { font-weight: 700; font-size: 15px; color: var(--navy); }
+.mesa-estado { font-size: 11px; color: var(--muted); }
+.mesa-cuerpo { display: grid; gap: 3px; font-size: 11.5px; color: var(--muted); }
+.mesa-personas { display: flex; align-items: center; gap: 4px; color: var(--navy); font-size: 13px; }
+.mesa-personas b { font-size: 16px; font-weight: 600; }
+.mesa-personas small { color: var(--muted); }
+.mesa-etapa, .mesa-serv { display: flex; align-items: center; gap: 4px; }
+.mesa-serv.s-alerta { color: var(--warn); font-weight: 600; }
+.mesa-serv.s-critico { color: var(--mal); font-weight: 600; }
+.mesa-marcas { display: flex; gap: 3px; flex-wrap: wrap; min-height: 22px; }
+.mesa-marcas:empty { display: none; }
+.mk { display: inline-flex; width: 22px; height: 22px; border-radius: 6px; align-items: center; justify-content: center; }
+.mk.ma-fav { background: #F3ECFE; color: #5B32B5; }
+.mk.ma-ale { background: var(--mal-bg); color: var(--mal); }
+.mk.ma-pos { background: #FDE8F3; color: #A32168; }
+
+/* Timer sobre el dibujo de la mesa: se acerca al rojo según el límite */
+.timer { display: inline-flex; align-items: center; gap: 4px; border-radius: 999px; padding: 3px 8px; font-size: 11.5px; font-weight: 600; }
+.t-ok { background: var(--ok-bg); color: var(--ok); }
+.t-medio { background: var(--info-bg); color: #2540B8; }
+.t-alerta { background: var(--warn-bg); color: var(--warn); }
+.t-critico { background: var(--mal-bg); color: var(--mal); }
+.t-neutro { background: #F0F2F8; color: var(--muted); }
+
+.mesas.compacto { display: grid; grid-template-columns: repeat(auto-fill, minmax(158px, 1fr)); gap: 9px; }
+.mesas.compacto .mesa { min-width: 0; min-height: 96px; padding: 10px 11px; }
+.mesas.compacto .mesa-marcas { position: static; }
+
+/* --- Detalle -------------------------------------------------------------- */
+.detalle { margin-top: 14px; border: 1px solid var(--linea); border-radius: var(--r); padding: 14px; background: #FAFBFE; }
+.detalle.vacia { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; }
+.detalle-cab { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; }
+.detalle-cab h3 { font-size: 15px; display: flex; align-items: center; gap: 7px; }
+
+/* --- Listas --------------------------------------------------------------- */
+.lista-sol, .lista-res, .lista-bloq, .lista-espera, .lista-int, .pizzas, .rotacion, .secuencia, .bitacora { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 7px; }
+.lista-sol li, .lista-res li, .lista-bloq li, .lista-int li {
+  display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap;
+  border: 1px solid var(--linea); border-radius: var(--r-s); padding: 10px 12px; background: #fff; font-size: 13px;
+}
+.lista-int li small { display: block; color: var(--muted); font-size: 11.5px; }
+.lista-res li.grande { border-color: #F2DCAE; background: #FFFDF7; }
+.lista-res li.adelantada { border-color: #E9BDB8; }
+.lista-espera li { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; border: 1px solid var(--linea); border-left: 4px solid var(--warn); border-radius: var(--r-s); padding: 9px 12px; background: #fff; font-size: 13px; }
+.lista-espera li.critica { border-left-color: var(--mal); background: #FFF9F8; }
+
+/* --- Pizzas (producción) -------------------------------------------------- */
+.pz {
+  display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;
+  border: 1px solid var(--linea); border-radius: var(--r-s); padding: 11px 13px; background: #fff;
+}
+.pz-retraso { border-left: 4px solid var(--mal); background: #FFF9F8; }
+.pz-cerrada { opacity: .62; }
+.pz-ajena { background: #FAFBFE; }
+.pz-info { min-width: 0; display: grid; gap: 5px; }
+.pz-sabor { font-size: 14.5px; color: var(--navy); }
+.pz-sabor .cant { color: var(--blue); font-weight: 700; }
+.pz-meta { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; }
+.pz-meta .destino { display: inline-flex; align-items: center; gap: 5px; background: #F0F2F8; border-radius: 7px; padding: 3px 8px; font-weight: 500; color: var(--navy); }
+.pz-meta .tiempo { display: inline-flex; align-items: center; gap: 4px; }
+.pz-acc { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+.entrega-libre { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.entrega-libre select { min-width: 190px; }
+.entrega-libre.falta select { border-color: var(--mal); }
+
+.filtros { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 10px; }
+.filtro {
+  display: inline-flex; align-items: center; gap: 5px; min-height: 36px;
+  border: 1px solid var(--linea); border-radius: 999px; padding: 6px 12px;
+  background: #fff; color: var(--muted); font-family: inherit; font-size: 12px; cursor: pointer;
+}
+.filtro.act { border-color: var(--blue); color: var(--blue); background: var(--blue-suave); font-weight: 600; }
+.filtro .n { font-weight: 700; }
+
+/* --- Cola del rodizio ----------------------------------------------------- */
+.rotacion { counter-reset: r; }
+.rot { display: flex; align-items: center; gap: 11px; border: 1px solid var(--linea); border-radius: var(--r-s); padding: 9px 12px; background: #fff; }
+.rot.r-sol { border-color: #DCC9FA; background: #FBF8FF; }
+.rot.r-bloq { opacity: .6; }
+.rot-num { width: 26px; height: 26px; flex: none; border-radius: 50%; background: var(--navy); color: #fff; display: grid; place-items: center; font-size: 11.5px; font-weight: 600; }
+.rot.r-sol .rot-num { background: #5B32B5; }
+.rot-txt { flex: 1; min-width: 0; display: grid; gap: 2px; }
+.rot-txt b { font-size: 14px; color: var(--navy); }
+.rot-txt small { font-size: 11.5px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.rot-acc { display: flex; gap: 6px; flex-wrap: wrap; }
+
+/* --- Ruta del pasador ----------------------------------------------------- */
+.ruta-cajas { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; }
+.ruta-caja { border: 1px solid var(--linea); border-radius: var(--r-s); padding: 12px 14px; background: #fff; display: grid; gap: 3px; }
+.ruta-caja.destacada { border-color: var(--blue); background: var(--blue-suave); }
+.ruta-caja.alerta { border-color: #E9BDB8; background: #FFF9F8; }
+.rc-tit { display: flex; align-items: center; gap: 6px; font-size: 11px; letter-spacing: .07em; text-transform: uppercase; color: var(--muted); font-weight: 600; }
+.ruta-caja b { font-size: 17px; color: var(--navy); }
+.ruta-caja small { font-size: 11.5px; color: var(--muted); }
+
+/* --- Hornos --------------------------------------------------------------- */
+.racks { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+.rack { width: 44px; height: 40px; border: 1.5px dashed var(--linea); border-radius: 9px; display: grid; place-items: center; color: var(--muted); }
+.rack.ocupado { border-style: solid; border-color: #F2DCAE; background: var(--warn-bg); color: var(--warn); }
+
+/* --- Simulación ----------------------------------------------------------- */
+.escenarios { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+.tarjeta-esc { display: grid; gap: 4px; text-align: left; border: 1px solid var(--linea); border-radius: var(--r-s); padding: 13px; background: #fff; cursor: pointer; font-family: inherit; min-height: var(--toque); }
+.tarjeta-esc.act { border-color: var(--blue); background: var(--blue-suave); }
+.tarjeta-esc b { color: var(--navy); font-size: 14px; }
+.tarjeta-esc small { color: var(--muted); font-size: 12px; }
+
+.umbrales { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 10px; }
+.umbral { display: grid; gap: 4px; background: #FAFBFE; border: 1px solid var(--linea); border-radius: var(--r-s); padding: 9px 11px; }
+.umbral span { font-size: 12px; color: var(--muted); }
+
+.secuencia li { display: flex; justify-content: space-between; align-items: center; gap: 10px; border: 1px solid var(--linea); border-radius: var(--r-s); padding: 7px 11px; background: #fff; font-size: 13px; }
+.secuencia li.act { border-color: var(--blue); background: var(--blue-suave); font-weight: 600; }
+
+.bitacora li { display: grid; grid-template-columns: 58px 92px 1fr; gap: 8px; align-items: baseline; font-size: 12.5px; padding: 6px 10px; border-bottom: 1px solid var(--linea); }
+.bitacora .hora { color: var(--muted); }
+.bitacora .rol { color: var(--blue); font-weight: 600; text-transform: capitalize; }
+
+/* --- Vacíos --------------------------------------------------------------- */
+.vacio { display: flex; align-items: center; gap: 9px; color: var(--muted); font-size: 13px; background: #FAFBFE; border: 1px dashed var(--linea); border-radius: var(--r-s); padding: 14px; }
+
+/* --- Pie ------------------------------------------------------------------ */
+.pie { max-width: 1240px; margin: 0 auto; padding: 8px 16px 40px; font-size: 12px; color: var(--muted); }
+.pie p { margin: 4px 0; }
+
+/* --- Adaptación ----------------------------------------------------------- */
+@media (max-width: 1000px) {
+  .metricas { grid-template-columns: repeat(2, 1fr); }
+  .dobles { grid-template-columns: 1fr; }
+  .senal-razones { max-width: 100%; }
+}
+
+@media (max-width: 680px) {
+  body { font-size: 14.5px; }
+  .app { padding: 12px; gap: 12px; }
+  .cabecera { padding: 9px 12px 0; }
+  .marca-nombre { font-size: 12px; }
+  .barra-global { flex: 1 1 auto; min-width: 0; justify-content: flex-end; }
+  .barra-global .disp { display: none; }
+  .tab { flex: 1 1 auto; justify-content: center; padding: 8px 10px; font-size: 12px; }
+  .tab span { white-space: nowrap; }
+  .senal { flex-direction: column; align-items: flex-start; gap: 10px; padding: 16px; }
+  .senal h1 { font-size: 25px; }
+  .metricas { grid-template-columns: 1fr 1fr; }
+  .metrica strong { font-size: 22px; }
+  .mesas.compacto { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+  .mesas { gap: 12px; }
+  .mesa { min-width: 128px; }
+  .form-linea { grid-template-columns: 1fr; }
+  .form-linea .ancho { grid-column: span 1; }
+  .contador { grid-template-columns: var(--toque) 1fr var(--toque); width: 100%; }
+  .pz, .lista-sol li, .lista-res li, .lista-bloq li { flex-direction: column; align-items: stretch; }
+  .pz-acc, .entrega-libre { width: 100%; }
+  .pz-acc .btn, .entrega-libre .btn { flex: 1 1 auto; }
+  .entrega-libre select { min-width: 0; width: 100%; }
+  .secuencia li { flex-wrap: wrap; }
+  .secuencia li > span:first-child { flex: 1 1 100%; min-width: 0; }
+  .bitacora li { grid-template-columns: 52px 1fr; }
+  .bitacora .rol { grid-column: 2; }
+  .ruta-cajas { grid-template-columns: 1fr; }
+}
+
+@media print {
+  .cabecera, .pie, .btn, .filtros { display: none; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- Iconos: cada estado se comunica con icono + texto, nunca sólo con color -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <symbol id="ic-cola" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></symbol>
+  <symbol id="ic-preparacion" viewBox="0 0 24 24"><path d="M6 3v7a3 3 0 0 0 6 0V3M9 13v8M17 3c-1.5 2-2 3.5-2 6h4c0-2.5-.5-4-2-6zM17 9v12"/></symbol>
+  <symbol id="ic-horno" viewBox="0 0 24 24"><path d="M12 3s5 4.6 5 9a5 5 0 0 1-10 0c0-2 1-3.2 1-3.2s.9 1.6 2 1.6C11.2 8.4 12 3 12 3z"/></symbol>
+  <symbol id="ic-lista" viewBox="0 0 24 24"><path d="M5.5 16.5h13L17 14v-3.2a5 5 0 0 0-10 0V14zM10 19.5h4"/></symbol>
+  <symbol id="ic-sala" viewBox="0 0 24 24"><circle cx="12.5" cy="4" r="2"/><path d="M12.5 7l-3.2 4.6 2.2 2 1 6.4M12.5 7l3.4 3.6 3.1 1M9.3 11.6L5.5 13"/></symbol>
+  <symbol id="ic-completada" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+  <symbol id="ic-cancelada" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="ic-alerta" viewBox="0 0 24 24"><path d="M12 3.5l9.2 16.5H2.8zM12 9.5v5M12 17.5h.01"/></symbol>
+  <symbol id="ic-reloj" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M12 6.6V12l3.4 2.2"/></symbol>
+  <symbol id="ic-mesa" viewBox="0 0 24 24"><path d="M3 9h18M6 9v10M18 9v10M12 9V4.5M8.5 4.5h7"/></symbol>
+  <symbol id="ic-personas" viewBox="0 0 24 24"><circle cx="9" cy="7.5" r="3.2"/><path d="M2.8 20c0-3.4 2.8-5.6 6.2-5.6s6.2 2.2 6.2 5.6M16.4 5.2a3.2 3.2 0 0 1 0 6M18 20c0-2.2-.7-3.8-1.8-4.9"/></symbol>
+  <symbol id="ic-postre" viewBox="0 0 24 24"><path d="M5 10.5h14l-1.8 9.5H6.8zM6.8 10.5A3.2 3.2 0 0 1 10 6a3 3 0 0 1 4 0 3.2 3.2 0 0 1 3.2 4.5M12 6V3.5"/></symbol>
+  <symbol id="ic-delivery" viewBox="0 0 24 24"><path d="M3 7.8l9-4.3 9 4.3v8.4l-9 4.3-9-4.3z"/><path d="M3 7.8l9 4.3 9-4.3M12 12.1v8.4"/></symbol>
+  <symbol id="ic-favorito" viewBox="0 0 24 24"><path d="M12 3.2l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17.2l-5.4 2.9 1-6.1-4.4-4.3 6.1-.9z"/></symbol>
+  <symbol id="ic-alergia" viewBox="0 0 24 24"><path d="M12 3l7.2 3v6c0 4.2-3 7.4-7.2 9-4.2-1.6-7.2-4.8-7.2-9V6z"/><path d="M12 8.2v4M12 15.2h.01"/></symbol>
+  <symbol id="ic-nodisponible" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.8"/><path d="M5.8 5.8l12.4 12.4"/></symbol>
+  <symbol id="ic-ruta" viewBox="0 0 24 24"><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="6" r="2.4"/><path d="M8.4 18h5.1a3.1 3.1 0 0 0 0-6.2h-3a3.1 3.1 0 0 1 0-6.2h5.1"/></symbol>
+  <symbol id="ic-mas" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="ic-deshacer" viewBox="0 0 24 24"><path d="M4.5 9.5h10a5 5 0 0 1 0 10H9"/><path d="M4.5 9.5l4-4M4.5 9.5l4 4"/></symbol>
+</svg>
+
+<header class="cabecera">
+  <div class="cab-fila">
+    <div class="marca">
+      <span class="marca-pulso">PULSO</span>
+      <span class="marca-sep">·</span>
+      <span class="marca-nombre">Rodizza · Tablero de Ritmo</span>
+    </div>
+    <div id="barra-global" class="barra-global"></div>
+  </div>
+  <nav id="nav" class="tabs" aria-label="Vistas por rol"></nav>
+</header>
+
+<main id="vista" class="app"></main>
+
+<footer class="pie">
+  <p><b>Prototipo de trabajo.</b> Los umbrales, el plano de mesas, la secuencia base y los tiempos son
+  hipótesis para poner a prueba con el equipo, no políticas de Rodizza. Ningún dato sale de este navegador.</p>
+  <p class="muted">Pulso · Estrategia · Experiencia · Claridad</p>
+</footer>
+
+<script>
+(() => {
+  var __defProp = Object.defineProperty;
+  var __export = (target, all) => {
+    for (var name in all)
+      __defProp(target, name, { get: all[name], enumerable: true });
+  };
+
+  // js/config.js
+  var VERSION_ESTADO = "rodizza-ritmo-v2";
+  var AREAS = [
+    { id: "rodizza", nombre: "Rodizza", color: "#0F3BFE", orden: 1 },
+    { id: "sala", nombre: "Sala", color: "#0EA88A", orden: 2 },
+    { id: "rodillo", nombre: "Rodillo", color: "#7A5AF8", orden: 3 },
+    { id: "vip", nombre: "VIP", color: "#B97A12", orden: 4, notas: "Capacidad declarada: 12 personas" },
+    { id: "terraza", nombre: "Terraza", color: "#127D9B", orden: 5, notas: "\xC1rea con mayor riesgo de quedar desatendida" }
+  ];
+  var MESAS = [
+    { id: "R1", area: "rodizza", capacidad: 4 },
+    { id: "R2", area: "rodizza", capacidad: 4 },
+    { id: "R3", area: "rodizza", capacidad: 6 },
+    { id: "R4", area: "rodizza", capacidad: 6 },
+    { id: "R5", area: "rodizza", capacidad: 2 },
+    { id: "R6", area: "rodizza", capacidad: 8 },
+    { id: "S1", area: "sala", capacidad: 4 },
+    { id: "S2", area: "sala", capacidad: 4 },
+    { id: "S3", area: "sala", capacidad: 2 },
+    { id: "S4", area: "sala", capacidad: 6 },
+    { id: "S5", area: "sala", capacidad: 6 },
+    { id: "S6", area: "sala", capacidad: 4 },
+    { id: "RO1", area: "rodillo", capacidad: 4 },
+    { id: "RO2", area: "rodillo", capacidad: 4 },
+    { id: "RO3", area: "rodillo", capacidad: 6 },
+    { id: "V1", area: "vip", capacidad: 12 },
+    { id: "T1", area: "terraza", capacidad: 4 },
+    { id: "T2", area: "terraza", capacidad: 4 },
+    { id: "T3", area: "terraza", capacidad: 6 },
+    { id: "T4", area: "terraza", capacidad: 6 },
+    { id: "T5", area: "terraza", capacidad: 2 }
+  ];
+  var SABORES = [
+    { id: "margarita", nombre: "Margarita", base: "roja" },
+    { id: "llanera", nombre: "Llanera", base: "roja" },
+    { id: "italiana", nombre: "Italiana", base: "roja", popular: true },
+    { id: "champinones", nombre: "Champi\xF1ones", base: "roja" },
+    { id: "pepperoni", nombre: "Pepperoni", base: "roja", popular: true },
+    { id: "pepperoni-tocineta", nombre: "Pepperoni & tocineta", base: "roja" },
+    { id: "pasticho", nombre: "Pasticho", base: "roja" },
+    { id: "cochino-frito", nombre: "Cochino frito", base: "roja", popular: true },
+    { id: "pollo", nombre: "Pollo", base: "roja" },
+    { id: "rodizza", nombre: "Rodizza", base: "roja" },
+    { id: "espanola", nombre: "Espa\xF1ola", base: "roja" },
+    { id: "vegetal", nombre: "Vegetal", base: "roja" },
+    { id: "caprese", nombre: "Caprese", base: "roja" },
+    { id: "mexicana", nombre: "Mexicana", base: "roja", popular: true },
+    { id: "rusticana", nombre: "Rusticana", base: "roja" },
+    { id: "parrillera", nombre: "Parrillera", base: "roja" },
+    { id: "primavera", nombre: "Primavera", base: "roja" },
+    { id: "hawaiana-caliente", nombre: "Hawaiana caliente", base: "roja" },
+    { id: "pepperoni-picante", nombre: "Pepperoni picante", base: "roja", popular: true },
+    { id: "prosciutto", nombre: "Prosciutto", base: "roja", popular: true },
+    { id: "sencilla", nombre: "Sencilla", base: "roja" },
+    { id: "florencia", nombre: "Florencia", base: "roja" },
+    { id: "pollo-bbq", nombre: "Pollo BBQ & queso", base: "roja" },
+    { id: "mortadela", nombre: "Mortadela", base: "roja" },
+    { id: "rodizza-blanca", nombre: "Rodizza blanca", base: "blanca" },
+    { id: "cuatro-quesos", nombre: "Cuatro quesos", base: "blanca" },
+    { id: "pepperoni-blanca", nombre: "Pepperoni blanca", base: "blanca" },
+    { id: "trufa", nombre: "Trufa", base: "blanca", popular: true },
+    { id: "blanca-tocineta", nombre: "Blanca tocineta", base: "blanca" },
+    { id: "mortadela-blanca", nombre: "Mortadela blanca", base: "blanca" },
+    { id: "ajoporro", nombre: "Ajoporro", base: "blanca", popular: true }
+  ];
+  var POSTRES = [
+    { id: "tiramisu", nombre: "Tiramis\xFA", base: "dulce", popular: true },
+    { id: "churro", nombre: "Churro", base: "dulce" },
+    { id: "nutella", nombre: "Nutella", base: "dulce" },
+    { id: "ovomaltina", nombre: "Ovomaltina", base: "dulce", popular: true },
+    { id: "bombas", nombre: "Bombas", base: "dulce" },
+    { id: "galletas", nombre: "Galletas choco-chip", base: "dulce" },
+    { id: "ponque", nombre: "Ponqu\xE9 chocolate-vainilla", base: "dulce" }
+  ];
+  var TODOS_LOS_SABORES = [...SABORES, ...POSTRES];
+  function sabor(id) {
+    return TODOS_LOS_SABORES.find((s) => s.id === id) || { id, nombre: id, base: "roja" };
+  }
+  function nombreSabor(id) {
+    return sabor(id).nombre;
+  }
+  var SECUENCIA_BASE = [
+    "margarita",
+    "pepperoni",
+    "caprese",
+    "italiana",
+    "champinones",
+    "pepperoni-tocineta",
+    "pollo",
+    "cuatro-quesos",
+    "rodizza",
+    "vegetal",
+    "mexicana",
+    "pepperoni",
+    "cochino-frito",
+    "prosciutto",
+    "espanola",
+    "parrillera",
+    "margarita",
+    "hawaiana-caliente",
+    "pepperoni-picante",
+    "trufa"
+  ];
+  var ESTADOS_PRODUCCION = [
+    { id: "en_cola", nombre: "En cola", icono: "cola", clase: "e-cola" },
+    { id: "en_preparacion", nombre: "En preparaci\xF3n", icono: "preparacion", clase: "e-prep" },
+    { id: "en_horno", nombre: "En horno", icono: "horno", clase: "e-horno" },
+    { id: "lista", nombre: "Lista / en el pase", icono: "lista", clase: "e-lista" },
+    { id: "en_sala", nombre: "En sala", icono: "sala", clase: "e-sala" },
+    { id: "completada", nombre: "Completada", icono: "completada", clase: "e-completada" },
+    { id: "cancelada", nombre: "Cancelada", icono: "cancelada", clase: "e-cancelada" }
+  ];
+  var ESTADO_CAPTURA_INVENTARIO = "en_sala";
+  function estadoProduccion(id) {
+    return ESTADOS_PRODUCCION.find((e) => e.id === id) || ESTADOS_PRODUCCION[0];
+  }
+  var TIPOS_SOLICITUD = [
+    { id: "favorito", nombre: "Sabor favorito", icono: "favorito", clase: "t-favorito" },
+    { id: "alergia", nombre: "Alergia / excepci\xF3n", icono: "alergia", clase: "t-alergia" },
+    { id: "postre", nombre: "Postre", icono: "postre", clase: "t-postre" },
+    { id: "delivery", nombre: "Delivery", icono: "delivery", clase: "t-delivery" }
+  ];
+  function tipoSolicitud(id) {
+    return TIPOS_SOLICITUD.find((t) => t.id === id) || TIPOS_SOLICITUD[0];
+  }
+  var ETAPAS_MESA = [
+    { id: "salada", nombre: "Rotaci\xF3n salada", icono: "cola" },
+    { id: "postre", nombre: "Postres", icono: "postre" },
+    { id: "cuenta", nombre: "Cuenta / cierre", icono: "completada" }
+  ];
+  var ROLES = [
+    { id: "sala", nombre: "Anfitriona / Sala", dispositivo: "Pantalla fija en el podio" },
+    { id: "cocina", nombre: "Cocina", dispositivo: "Pantalla fija en cocina" },
+    { id: "pase", nombre: "Pase / Pasador", dispositivo: "Pantalla fija en el pase" },
+    { id: "mesonero", nombre: "Mesonero", dispositivo: "M\xF3vil o tablet individual" },
+    { id: "simulacion", nombre: "Simulaci\xF3n", dispositivo: "Solo facilitaci\xF3n y pruebas" }
+  ];
+  var UMBRALES = {
+    ocupacionAdvertencia: 60,
+    // % de capacidad sentada
+    ocupacionSaturado: 85,
+    proyeccionAdvertencia: 75,
+    // % contando reservas próximas
+    proyeccionSaturado: 95,
+    reservaGrandePersonas: 8,
+    reservaProximaMin: 20,
+    // ventana para contar una reserva como demanda
+    deliveryAdvertencia: 3,
+    // pedidos delivery en cola
+    deliverySaturado: 5,
+    usoHornosAdvertencia: 80,
+    // % de racks ocupados
+    colaAdvertencia: 8,
+    // pizzas esperando producción
+    colaSaturado: 14,
+    retrasoAdvertenciaMin: 5,
+    // tiempo en un mismo estado
+    retrasoSaturadoMin: 10,
+    sinServicioAdvertenciaMin: 8,
+    // mesa activa sin recibir pizza
+    sinServicioSaturadoMin: 14,
+    mesasSinServicioSaturado: 3,
+    // cantidad de mesas en rojo por falta de servicio
+    limiteMesaMin: 90,
+    // política de tiempo por mesa
+    avisoMesaMin: 75,
+    // cuándo el timer empieza a ponerse rojo
+    racksTotales: 6,
+    // capacidad de trabajo del horno
+    personasPorPizza: 2.5,
+    // SUPUESTO de consumo para proyectar demanda
+    pasadoresPorTurno: 3
+  };
+  var ESCENARIOS = [
+    { id: "vacio", nombre: "Turno vac\xEDo", descripcion: "Restaurante sin mesas sentadas. Para empezar desde cero." },
+    { id: "pico", nombre: "Hora pico 8:00 pm", descripcion: "Sala llena, cola de cocina cargada, delivery compitiendo y una reserva grande entrando." }
+  ];
+  var INTEGRACIONES = [
+    {
+      id: "xetux_pos",
+      nombre: "Xetux \xB7 POS y comandas",
+      estado: "no_conectado",
+      detalle: "Puede aportar plano de sala, mesas, comensales y pedidos. Integraci\xF3n fuera del alcance de este prototipo."
+    },
+    {
+      id: "xetux_kds",
+      nombre: "Xetux \xB7 KDS de cocina",
+      estado: "no_conectado",
+      detalle: "Xetux incluye pantalla de cocina nativa. Falta auditar qu\xE9 expone hacia afuera."
+    },
+    {
+      id: "reservas",
+      nombre: "Reservas",
+      estado: "manual",
+      detalle: "Hoy se manejan manualmente. En el prototipo se cargan a mano en la vista de Sala."
+    },
+    {
+      id: "inventario",
+      nombre: "Inventario / Profit Plus",
+      estado: "no_conectado",
+      detalle: "El tablero genera eventos de salida; la carga al ERP sigue siendo posterior."
+    }
+  ];
+
+  // js/estado.js
+  var CLAVE = VERSION_ESTADO;
+  var almacen = {
+    leer(k) {
+      try {
+        return localStorage.getItem(k);
+      } catch (e) {
+        return null;
+      }
+    },
+    escribir(k, v) {
+      try {
+        localStorage.setItem(k, v);
+        return true;
+      } catch (e) {
+        return false;
+      }
+    },
+    borrar(k) {
+      try {
+        localStorage.removeItem(k);
+      } catch (e) {
+      }
+    }
+  };
+  var MAX_DESHACER = 25;
+  var estado = null;
+  var suscriptores = [];
+  var pilaDeshacer = [];
+  var clon = (o) => JSON.parse(JSON.stringify(o));
+  var contadorId = 0;
+  function nuevoId(prefijo) {
+    contadorId += 1;
+    return prefijo + "-" + Date.now().toString(36) + "-" + contadorId.toString(36);
+  }
+  function ahora() {
+    return Date.now() + (estado?.desfaseMs || 0);
+  }
+  function minutosDesde(ts) {
+    if (!ts) return null;
+    return Math.max(0, Math.floor((ahora() - ts) / 6e4));
+  }
+  function estadoVacio() {
+    return {
+      version: 2,
+      creadoEn: Date.now(),
+      desfaseMs: 0,
+      escenario: "vacio",
+      umbrales: { ...UMBRALES },
+      secuenciaBase: [...SECUENCIA_BASE],
+      cursorSecuencia: 0,
+      mesas: MESAS.map((m) => ({
+        id: m.id,
+        area: m.area,
+        capacidad: m.capacidad,
+        estado: "libre",
+        // libre | reservada | ocupada
+        comensales: 0,
+        sentadaEn: null,
+        etapa: "salada",
+        // salada | postre | cuenta
+        ultimoServicioEn: null,
+        pizzasRecibidas: 0,
+        reservaId: null,
+        nota: ""
+      })),
+      reservas: [],
+      pasadores: pasadoresPorDefecto(UMBRALES.pasadoresPorTurno),
+      produccion: [],
+      solicitudes: [],
+      disponibilidad: {},
+      // saborId -> { disponible:false, motivo, minutos, desde, responsable }
+      deliveries: [],
+      entregas: [],
+      inventario: [],
+      bitacora: []
+    };
+  }
+  function iniciar() {
+    const guardado = almacen.leer(CLAVE);
+    if (guardado) {
+      try {
+        estado = migrar(JSON.parse(guardado));
+      } catch (e) {
+        console.warn("No se pudo leer el estado guardado, se reinicia.", e);
+        estado = estadoVacio();
+      }
+    } else {
+      estado = estadoVacio();
+    }
+    if (!estado.pasadores || !estado.pasadores.length) {
+      estado.pasadores = pasadoresPorDefecto(estado.umbrales.pasadoresPorTurno);
+    }
+    guardar(false);
+    window.addEventListener("storage", (ev) => {
+      if (ev.key === CLAVE && ev.newValue) {
+        try {
+          estado = migrar(JSON.parse(ev.newValue));
+          emitir();
+        } catch (e) {
+        }
+      }
+    });
+    return estado;
+  }
+  function migrar(datos) {
+    const base = estadoVacio();
+    const mezcla = { ...base, ...datos };
+    mezcla.umbrales = { ...base.umbrales, ...datos.umbrales || {} };
+    const porId = new Map((datos.mesas || []).map((m) => [m.id, m]));
+    mezcla.mesas = base.mesas.map((m) => ({ ...m, ...porId.get(m.id) || {}, area: m.area, capacidad: m.capacidad }));
+    ["reservas", "produccion", "solicitudes", "deliveries", "entregas", "inventario", "bitacora", "pasadores"].forEach((k) => {
+      if (!Array.isArray(mezcla[k])) mezcla[k] = [];
+    });
+    if (!mezcla.disponibilidad || typeof mezcla.disponibilidad !== "object") mezcla.disponibilidad = {};
+    if (!Array.isArray(mezcla.secuenciaBase) || !mezcla.secuenciaBase.length) mezcla.secuenciaBase = [...SECUENCIA_BASE];
+    return mezcla;
+  }
+  function pasadoresPorDefecto(cantidad) {
+    const nombres = ["Pasador 1", "Pasador 2", "Pasador 3", "Pasador 4"];
+    return Array.from({ length: Math.max(1, Math.min(4, cantidad || 3)) }, (_, i) => ({
+      id: "p" + (i + 1),
+      nombre: nombres[i],
+      activo: true,
+      ultimaAreaAtendida: null,
+      ultimaEntregaEn: null,
+      entregas: 0
+    }));
+  }
+  function guardar(avisar = true) {
+    almacen.escribir(CLAVE, JSON.stringify(estado));
+    if (avisar) emitir();
+  }
+  function suscribir(fn) {
+    suscriptores.push(fn);
+    return () => {
+      const i = suscriptores.indexOf(fn);
+      if (i >= 0) suscriptores.splice(i, 1);
+    };
+  }
+  function emitir() {
+    suscriptores.forEach((fn) => fn(estado));
+  }
+  function obtener() {
+    return estado;
+  }
+  function ejecutar(descripcion, rol, fn) {
+    pilaDeshacer.push({ datos: clon(estado), descripcion });
+    if (pilaDeshacer.length > MAX_DESHACER) pilaDeshacer.shift();
+    let resultado;
+    try {
+      resultado = fn(estado);
+    } catch (e) {
+      pilaDeshacer.pop();
+      console.error("Acci\xF3n fallida:", descripcion, e);
+      throw e;
+    }
+    estado.bitacora.unshift({
+      id: nuevoId("log"),
+      ts: ahora(),
+      rol: rol || "\u2014",
+      texto: descripcion
+    });
+    if (estado.bitacora.length > 120) estado.bitacora.length = 120;
+    guardar();
+    return resultado;
+  }
+  function puedeDeshacer() {
+    return pilaDeshacer.length > 0;
+  }
+  function ultimaAccion() {
+    return pilaDeshacer.length ? pilaDeshacer[pilaDeshacer.length - 1].descripcion : null;
+  }
+  function deshacer() {
+    const paso = pilaDeshacer.pop();
+    if (!paso) return false;
+    estado = paso.datos;
+    guardar();
+    return true;
+  }
+  function reemplazarEstado(nuevo, descripcion) {
+    pilaDeshacer.push({ datos: clon(estado), descripcion: descripcion || "Cambio de escenario" });
+    estado = nuevo;
+    guardar();
+  }
+  function reiniciar() {
+    pilaDeshacer.length = 0;
+    estado = estadoVacio();
+    almacen.borrar(CLAVE);
+    guardar();
+  }
+
+  // js/calculos.js
+  var ESTADOS_ACTIVOS = ["en_cola", "en_preparacion", "en_horno", "lista"];
+  function areaPorId(id) {
+    return AREAS.find((a) => a.id === id);
+  }
+  function nombreArea(id) {
+    return (areaPorId(id) || {}).nombre || id;
+  }
+  function mesasOcupadas(st) {
+    return st.mesas.filter((m) => m.estado === "ocupada");
+  }
+  function comensalesActivos(st) {
+    return mesasOcupadas(st).reduce((a, m) => a + m.comensales, 0);
+  }
+  function capacidadTotal(st) {
+    return st.mesas.reduce((a, m) => a + m.capacidad, 0);
+  }
+  function resumenPorArea(st) {
+    return AREAS.map((area) => {
+      const mesas = st.mesas.filter((m) => m.area === area.id);
+      const ocupadas = mesas.filter((m) => m.estado === "ocupada");
+      const sinServicio = ocupadas.filter((m) => minutosSinServicio(st, m) >= st.umbrales.sinServicioAdvertenciaMin);
+      return {
+        ...area,
+        mesas,
+        mesasOcupadas: ocupadas.length,
+        comensales: ocupadas.reduce((a, m) => a + m.comensales, 0),
+        capacidad: mesas.reduce((a, m) => a + m.capacidad, 0),
+        mesasSinServicio: sinServicio.length,
+        peorEspera: ocupadas.reduce((max, m) => Math.max(max, minutosSinServicio(st, m) || 0), 0)
+      };
+    });
+  }
+  function minutosSinServicio(st, mesa) {
+    if (mesa.estado !== "ocupada" || mesa.etapa === "cuenta") return 0;
+    const ref = mesa.ultimoServicioEn || mesa.sentadaEn;
+    return minutosDesde(ref) || 0;
+  }
+  function minutosSentada(st, mesa) {
+    return mesa.sentadaEn ? minutosDesde(mesa.sentadaEn) || 0 : 0;
+  }
+  function nivelTiempoMesa(st, mesa) {
+    const min2 = minutosSentada(st, mesa);
+    if (!mesa.sentadaEn) return "neutro";
+    if (min2 >= st.umbrales.limiteMesaMin) return "critico";
+    if (min2 >= st.umbrales.avisoMesaMin) return "alerta";
+    if (min2 >= st.umbrales.limiteMesaMin * 0.6) return "medio";
+    return "ok";
+  }
+  function nivelSinServicio(st, mesa) {
+    const min2 = minutosSinServicio(st, mesa);
+    if (min2 >= st.umbrales.sinServicioSaturadoMin) return "critico";
+    if (min2 >= st.umbrales.sinServicioAdvertenciaMin) return "alerta";
+    return "ok";
+  }
+  function mesasSinServicio(st) {
+    return mesasOcupadas(st).map((m) => ({ mesa: m, minutos: minutosSinServicio(st, m) })).filter((x) => x.minutos >= st.umbrales.sinServicioAdvertenciaMin).sort((a, b) => b.minutos - a.minutos);
+  }
+  function reservasPendientes(st) {
+    return st.reservas.filter((r2) => r2.estado === "pendiente").sort((a, b) => a.hora - b.hora).map((r2) => {
+      const faltan = Math.round((r2.hora - ahora()) / 6e4);
+      return {
+        ...r2,
+        faltanMin: faltan,
+        grande: r2.personas >= st.umbrales.reservaGrandePersonas,
+        adelantada: faltan < 0
+      };
+    });
+  }
+  function reservasProximas(st, ventanaMin) {
+    const v = ventanaMin ?? st.umbrales.reservaProximaMin;
+    return reservasPendientes(st).filter((r2) => r2.faltanMin <= v);
+  }
+  function personasProximas(st, ventanaMin) {
+    return reservasProximas(st, ventanaMin).reduce((a, r2) => a + r2.personas, 0);
+  }
+  function produccionActiva(st) {
+    return st.produccion.filter((p) => ESTADOS_ACTIVOS.includes(p.estado));
+  }
+  function produccionPorEstado(st, estado2) {
+    return st.produccion.filter((p) => p.estado === estado2);
+  }
+  function pizzasEnCola(st) {
+    return st.produccion.filter((p) => p.estado === "en_cola" || p.estado === "en_preparacion").reduce((a, p) => a + p.cantidad, 0);
+  }
+  function racksOcupados(st) {
+    return produccionPorEstado(st, "en_horno").reduce((a, p) => a + p.cantidad, 0);
+  }
+  function racksDisponibles(st) {
+    return Math.max(0, st.umbrales.racksTotales - racksOcupados(st));
+  }
+  function minutosEnEstado(st, item) {
+    return minutosDesde(item.estadoDesde) || 0;
+  }
+  function estaRetrasado(st, item) {
+    if (!ESTADOS_ACTIVOS.includes(item.estado)) return false;
+    return minutosEnEstado(st, item) >= st.umbrales.retrasoAdvertenciaMin;
+  }
+  function itemMasViejo(st) {
+    const activos = produccionActiva(st);
+    if (!activos.length) return null;
+    return activos.reduce((viejo, p) => minutosEnEstado(st, p) > minutosEnEstado(st, viejo) ? p : viejo, activos[0]);
+  }
+  function deliveriesEnCola(st) {
+    return st.deliveries.filter((d) => d.estado === "en_cola");
+  }
+  function demandaEstimada(st) {
+    const personas = comensalesActivos(st);
+    const proximas = personasProximas(st, st.umbrales.reservaProximaMin);
+    return {
+      personas,
+      proximas,
+      pizzasPorRonda: Math.ceil(personas / st.umbrales.personasPorPizza) || 0,
+      pizzasConReservas: Math.ceil((personas + proximas) / st.umbrales.personasPorPizza) || 0
+    };
+  }
+  function demandaPorSabor(st) {
+    const mapa2 = /* @__PURE__ */ new Map();
+    st.solicitudes.filter((s) => s.estado === "pendiente" && s.saborId && s.tipo !== "alergia").forEach((s) => {
+      const actual = mapa2.get(s.saborId) || { saborId: s.saborId, solicitudes: 0, personas: 0 };
+      actual.solicitudes += 1;
+      actual.personas += s.personas || 0;
+      mapa2.set(s.saborId, actual);
+    });
+    return [...mapa2.values()].sort((a, b) => b.solicitudes - a.solicitudes);
+  }
+  function solicitudesPendientes(st, tipos) {
+    return st.solicitudes.filter((s) => s.estado === "pendiente" || s.estado === "en_produccion").filter((s) => !tipos || tipos.includes(s.tipo)).sort((a, b) => a.creadaEn - b.creadaEn);
+  }
+  function solicitudesDeMesa(st, mesaId) {
+    return st.solicitudes.filter((s) => s.mesaId === mesaId && (s.estado === "pendiente" || s.estado === "en_produccion")).sort((a, b) => a.creadaEn - b.creadaEn);
+  }
+  function saboresBloqueados(st) {
+    return Object.entries(st.disponibilidad).map(([saborId, d]) => {
+      const transcurrido = minutosDesde(d.desde) || 0;
+      const restante = d.minutos ? d.minutos - transcurrido : null;
+      return {
+        saborId,
+        nombre: nombreSabor(saborId),
+        ...d,
+        transcurrido,
+        restante,
+        vencido: restante !== null && restante <= 0
+      };
+    }).sort((a, b) => a.desde - b.desde);
+  }
+  function estaBloqueado(st, saborId) {
+    return !!st.disponibilidad[saborId];
+  }
+  function colaRotacion(st, cantidad = 8) {
+    const pendientes = st.solicitudes.filter((s) => s.estado === "pendiente" && s.tipo === "favorito" && s.saborId).sort((a, b) => a.creadaEn - b.creadaEn);
+    const adelantadas = pendientes.filter((s) => s.adelantada);
+    const normales = pendientes.filter((s) => !s.adelantada);
+    const entradaSolicitud = (s) => ({
+      clave: "sol-" + s.id,
+      origen: "solicitud",
+      saborId: s.saborId,
+      mesaId: s.mesaId,
+      tipo: s.tipo,
+      solicitudId: s.id,
+      adelantada: s.adelantada,
+      bloqueado: estaBloqueado(st, s.saborId),
+      esperaMin: minutosDesde(s.creadaEn) || 0
+    });
+    const salida = adelantadas.map(entradaSolicitud);
+    const largo = st.secuenciaBase.length || 1;
+    let ci = st.cursorSecuencia;
+    let fi = 0;
+    let vueltas = 0;
+    while (salida.length < cantidad && vueltas < cantidad * 3) {
+      const saborId = st.secuenciaBase[ci % largo];
+      salida.push({
+        clave: "base-" + ci,
+        origen: "base",
+        saborId,
+        posicion: ci % largo + 1,
+        bloqueado: estaBloqueado(st, saborId)
+      });
+      ci += 1;
+      if (fi < normales.length && salida.length < cantidad) {
+        salida.push(entradaSolicitud(normales[fi]));
+        fi += 1;
+      }
+      vueltas += 1;
+    }
+    return salida.slice(0, cantidad);
+  }
+  function mesasEnPostre(st) {
+    return mesasOcupadas(st).filter((m) => m.etapa === "postre");
+  }
+  function colaPostres(st) {
+    const solicitudes = st.solicitudes.filter((s) => s.tipo === "postre" && (s.estado === "pendiente" || s.estado === "en_produccion")).sort((a, b) => a.creadaEn - b.creadaEn);
+    const personas = mesasEnPostre(st).reduce((a, m) => a + m.comensales, 0);
+    const bases = solicitudes.reduce((a, s) => a + s.cantidad, 0);
+    const porSabor = /* @__PURE__ */ new Map();
+    solicitudes.forEach((s) => {
+      [s.saborId, s.saborId2].filter(Boolean).forEach((id) => {
+        const actual = porSabor.get(id) || { saborId: id, cantidad: 0, personas: 0 };
+        actual.cantidad += s.saborId2 ? s.cantidad / 2 : s.cantidad;
+        actual.personas += s.personas || 0;
+        porSabor.set(id, actual);
+      });
+    });
+    return { solicitudes, personas, bases, porSabor: [...porSabor.values()].sort((a, b) => b.cantidad - a.cantidad) };
+  }
+  function rutaPasadores(st) {
+    const activos = st.pasadores.filter((p) => p.activo);
+    const resumen = resumenPorArea(st).filter((a) => a.mesasOcupadas > 0).sort((a, b) => b.comensales - a.comensales);
+    const asignacion = new Map(activos.map((p) => [p.id, []]));
+    resumen.forEach((area, i) => {
+      if (!activos.length) return;
+      const vuelta = Math.floor(i / activos.length);
+      const idx = vuelta % 2 === 0 ? i % activos.length : activos.length - 1 - i % activos.length;
+      asignacion.get(activos[idx].id).push(area);
+    });
+    const pendientes = mesasSinServicio(st);
+    return activos.map((p) => {
+      const areas = asignacion.get(p.id) || [];
+      const misPendientes = pendientes.filter((x) => areas.some((a) => a.id === x.mesa.area));
+      const inicio = misPendientes[0]?.mesa.area || areas[0]?.id || null;
+      return {
+        ...p,
+        areas,
+        areaInicio: inicio,
+        pendientes: misPendientes,
+        comensales: areas.reduce((a, x) => a + x.comensales, 0)
+      };
+    });
+  }
+  function proximaAreaSinServicio(st) {
+    const lista = mesasSinServicio(st);
+    return lista.length ? lista[0].mesa.area : null;
+  }
+  function totalesInventario(st) {
+    const mapa2 = /* @__PURE__ */ new Map();
+    st.inventario.forEach((ev) => {
+      const actual = mapa2.get(ev.saborId) || { saborId: ev.saborId, cantidad: 0 };
+      actual.cantidad += ev.cantidad;
+      mapa2.set(ev.saborId, actual);
+    });
+    return {
+      total: st.inventario.reduce((a, e) => a + e.cantidad, 0),
+      aMesa: st.inventario.filter((e) => e.destinoTipo === "mesa").reduce((a, e) => a + e.cantidad, 0),
+      aDelivery: st.inventario.filter((e) => e.destinoTipo === "delivery").reduce((a, e) => a + e.cantidad, 0),
+      porSabor: [...mapa2.values()].sort((a, b) => b.cantidad - a.cantidad)
+    };
+  }
+  function senal(st) {
+    const u = st.umbrales;
+    const capacidad = capacidadTotal(st) || 1;
+    const personas = comensalesActivos(st);
+    const proximas = personasProximas(st, u.reservaProximaMin);
+    const ocupacion = Math.round(personas / capacidad * 100);
+    const proyeccion = Math.round((personas + proximas) / capacidad * 100);
+    const usoHornos = Math.round(racksOcupados(st) / (u.racksTotales || 1) * 100);
+    const cola = pizzasEnCola(st);
+    const deliveries = deliveriesEnCola(st).length;
+    const viejo = itemMasViejo(st);
+    const minViejo = viejo ? minutosEnEstado(st, viejo) : 0;
+    const sinServicio = mesasSinServicio(st);
+    const criticasSinServicio = sinServicio.filter((x) => x.minutos >= u.sinServicioSaturadoMin);
+    const advertencia = [];
+    const saturado = [];
+    if (ocupacion >= u.ocupacionSaturado) saturado.push(`ocupaci\xF3n ${ocupacion}%`);
+    else if (ocupacion >= u.ocupacionAdvertencia) advertencia.push(`ocupaci\xF3n ${ocupacion}%`);
+    if (proyeccion >= u.proyeccionSaturado) saturado.push(`demanda proyectada ${proyeccion}%`);
+    else if (proyeccion >= u.proyeccionAdvertencia) advertencia.push(`demanda proyectada ${proyeccion}%`);
+    reservasProximas(st, u.reservaProximaMin).filter((r2) => r2.personas >= u.reservaGrandePersonas).forEach((r2) => advertencia.push(`${r2.personas} personas entran en ${Math.max(0, r2.faltanMin)} min`));
+    if (deliveries >= u.deliverySaturado) saturado.push(`${deliveries} pedidos delivery en cola`);
+    else if (deliveries >= u.deliveryAdvertencia) advertencia.push(`${deliveries} pedidos delivery en cola`);
+    if (usoHornos >= 100) saturado.push("hornos llenos");
+    else if (usoHornos >= u.usoHornosAdvertencia) advertencia.push(`hornos al ${usoHornos}%`);
+    if (cola >= u.colaSaturado) saturado.push(`${cola} pizzas esperando`);
+    else if (cola >= u.colaAdvertencia) advertencia.push(`${cola} pizzas esperando`);
+    if (minViejo >= u.retrasoSaturadoMin) saturado.push(`${nombreSabor(viejo.saborId)} lleva ${minViejo} min sin avanzar`);
+    else if (minViejo >= u.retrasoAdvertenciaMin) advertencia.push(`${nombreSabor(viejo.saborId)} lleva ${minViejo} min sin avanzar`);
+    if (criticasSinServicio.length >= u.mesasSinServicioSaturado) {
+      saturado.push(`${criticasSinServicio.length} mesas sin pizza hace m\xE1s de ${u.sinServicioSaturadoMin} min`);
+    } else if (sinServicio.length) {
+      advertencia.push(`${sinServicio.length} mesa(s) sin pizza hace m\xE1s de ${u.sinServicioAdvertenciaMin} min`);
+    }
+    const bloqueados = saboresBloqueados(st);
+    if (bloqueados.length) advertencia.push(`${bloqueados.length} sabor(es) no disponibles`);
+    const nivel = saturado.length ? "saturado" : advertencia.length ? "advertencia" : "normal";
+    return {
+      nivel,
+      razones: saturado.length ? saturado : advertencia,
+      ocupacion,
+      proyeccion,
+      usoHornos,
+      cola,
+      deliveries,
+      personas,
+      proximas,
+      minViejo,
+      mesasSinServicio: sinServicio.length
+    };
+  }
+  var TEXTO_SENAL = {
+    normal: { titulo: "Normal", sub: "Demanda y capacidad equilibradas" },
+    advertencia: { titulo: "Advertencia", sub: "Hay que anticipar y coordinar antes del golpe" },
+    saturado: { titulo: "Saturado", sub: "La demanda est\xE1 superando la capacidad del turno" }
+  };
+
+  // js/ui.js
+  function esc(v) {
+    return String(v ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+  }
+  function icono(nombre, clase = "") {
+    return `<svg class="ic ${clase}" aria-hidden="true" focusable="false"><use href="#ic-${nombre}"></use></svg>`;
+  }
+  function fmtHora(ts) {
+    if (!ts) return "\u2014";
+    return new Date(ts).toLocaleTimeString("es-VE", { hour: "2-digit", minute: "2-digit" });
+  }
+  function fmtMin(min2) {
+    if (min2 === null || min2 === void 0) return "\u2014";
+    if (min2 < 60) return min2 + " min";
+    const h = Math.floor(min2 / 60);
+    return h + " h " + min2 % 60 + " min";
+  }
+  function etiquetaEstado(estadoId) {
+    const e = estadoProduccion(estadoId);
+    return `<span class="etiqueta ${e.clase}">${icono(e.icono)}<span>${esc(e.nombre)}</span></span>`;
+  }
+  function etiquetaTipo(tipoId) {
+    if (!tipoId) return "";
+    const t = tipoSolicitud(tipoId);
+    return `<span class="etiqueta ${t.clase}">${icono(t.icono)}<span>${esc(t.nombre)}</span></span>`;
+  }
+  function textoDestino(item) {
+    if (item.destinoTipo === "mesa" && item.destinoId) return "Mesa " + item.destinoId;
+    if (item.destinoTipo === "area" && item.destinoId) return "\xC1rea " + nombreArea(item.destinoId);
+    if (item.destinoTipo === "delivery") return "Delivery" + (item.destinoId ? " \xB7 " + item.destinoId : "");
+    return "Rotaci\xF3n general";
+  }
+  function lineaSolicitud(s) {
+    const destino = s.mesaId ? "Mesa " + s.mesaId : s.area ? "\xC1rea " + nombreArea(s.area) : "Delivery";
+    const sabor2 = s.saborId ? nombreSabor(s.saborId) : "\u2014";
+    const media = s.saborId2 ? " + " + nombreSabor(s.saborId2) + " (mitad y mitad)" : "";
+    return `<b>${esc(sabor2)}${esc(media)}</b> <span class="flecha">\u2192</span> ${esc(destino)}`;
+  }
+  function chip(texto, clase = "", iconoNombre = "") {
+    return `<span class="chip ${clase}">${iconoNombre ? icono(iconoNombre) : ""}${texto}</span>`;
+  }
+  function opcionesSabor(lista, seleccionado = "", vacio2 = "Seleccionar sabor") {
+    return (vacio2 ? `<option value="">${esc(vacio2)}</option>` : "") + lista.map((s) => `<option value="${s.id}" ${s.id === seleccionado ? "selected" : ""}>${esc(s.nombre)}${s.popular ? " \u2605" : ""}</option>`).join("");
+  }
+  function vacio(texto, iconoNombre = "cola") {
+    return `<div class="vacio">${icono(iconoNombre)}<span>${esc(texto)}</span></div>`;
+  }
+  function contador(id, valor, min2 = 0, max = 99) {
+    return `<div class="contador" data-contador="${id}">
+    <button type="button" class="btn-cont" data-paso="-1" aria-label="Restar">\u2212</button>
+    <input type="number" id="${id}" value="${valor}" min="${min2}" max="${max}" inputmode="numeric">
+    <button type="button" class="btn-cont" data-paso="1" aria-label="Sumar">+</button>
+  </div>`;
+  }
+  function activarContadores(raiz) {
+    raiz.querySelectorAll("[data-contador]").forEach((cont) => {
+      cont.querySelectorAll(".btn-cont").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const input = cont.querySelector("input");
+          const paso = Number(btn.dataset.paso);
+          const min2 = Number(input.min || 0);
+          const max = Number(input.max || 999);
+          input.value = Math.max(min2, Math.min(max, (Number(input.value) || 0) + paso));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+        });
+      });
+    });
+  }
+
+  // js/vistas/sala.js
+  var sala_exports = {};
+  __export(sala_exports, {
+    html: () => html,
+    montar: () => montar,
+    tarjetaMesa: () => tarjetaMesa
+  });
+
+  // js/dibujo-mesa.js
+  var SILLA_ANCHO = 15;
+  var SILLA_ALTO = 10;
+  var SEPARACION = 5;
+  var HUECO = 4;
+  var PASO = SILLA_ANCHO + SEPARACION;
+  function repartoSillas(capacidad) {
+    const cap = Math.max(1, capacidad);
+    if (cap <= 8) {
+      const arriba2 = Math.ceil(cap / 2);
+      return { arriba: arriba2, abajo: cap - arriba2, izquierda: 0, derecha: 0 };
+    }
+    const resto = cap - 2;
+    const arriba = Math.ceil(resto / 2);
+    return { arriba, abajo: resto - arriba, izquierda: 1, derecha: 1 };
+  }
+  function dibujoMesa(mesa, ocupadas = 0, opciones = {}) {
+    const escala = opciones.escala || 1;
+    const { arriba, abajo, izquierda, derecha } = repartoSillas(mesa.capacidad);
+    const anchoMesa = Math.max(46, Math.max(arriba, abajo) * PASO - SEPARACION + 14);
+    const altoMesa = Math.max(54, Math.max(izquierda, derecha) * PASO - SEPARACION + 14);
+    const margenX = izquierda ? SILLA_ALTO + HUECO : 0;
+    const margenY = arriba ? SILLA_ALTO + HUECO : 0;
+    const x0 = margenX;
+    const y0 = margenY;
+    const ancho = anchoMesa + margenX + (derecha ? SILLA_ALTO + HUECO : 0);
+    const alto = altoMesa + margenY + (abajo ? SILLA_ALTO + HUECO : 0);
+    const sillas = [];
+    const filaHorizontal = (n, y) => {
+      const total = n * SILLA_ANCHO + (n - 1) * SEPARACION;
+      const inicio = x0 + (anchoMesa - total) / 2;
+      for (let i = 0; i < n; i++) {
+        sillas.push({ x: inicio + i * PASO, y, w: SILLA_ANCHO, h: SILLA_ALTO });
+      }
+    };
+    const filaVertical = (n, x) => {
+      const total = n * SILLA_ANCHO + (n - 1) * SEPARACION;
+      const inicio = y0 + (altoMesa - total) / 2;
+      for (let i = 0; i < n; i++) {
+        sillas.push({ x, y: inicio + i * PASO, w: SILLA_ALTO, h: SILLA_ANCHO });
+      }
+    };
+    filaHorizontal(arriba, y0 - SILLA_ALTO - HUECO);
+    filaHorizontal(abajo, y0 + altoMesa + HUECO);
+    filaVertical(izquierda, x0 - SILLA_ALTO - HUECO);
+    filaVertical(derecha, x0 + anchoMesa + HUECO);
+    const sentadas = Math.min(ocupadas, sillas.length);
+    const interactivo = opciones.interactivo !== false;
+    const rects = sillas.map((s, i) => {
+      const n = i + 1;
+      const ocupada = i < sentadas;
+      const etiqueta = ocupada ? `Quitar del puesto ${n} en adelante` : `Sentar ${n} ${n === 1 ? "persona" : "personas"}`;
+      const toque = interactivo ? `<rect class="silla-toque" data-silla="${n}" data-mesa-silla="${mesa.id}"
+          role="button" tabindex="0" aria-label="${etiqueta}"
+          x="${r(s.x - (s.w > s.h ? 2.5 : 4.5))}" y="${r(s.y - (s.w > s.h ? 4.5 : 2.5))}"
+          width="${r(s.w + (s.w > s.h ? 5 : 9))}" height="${r(s.h + (s.w > s.h ? 9 : 5))}" rx="5"/>` : "";
+      return `<g class="silla-grupo">
+      <rect class="silla${ocupada ? " ocupada" : ""}" x="${r(s.x)}" y="${r(s.y)}" width="${s.w}" height="${s.h}" rx="3.5"/>
+      ${toque}
+    </g>`;
+    }).join("");
+    return `<svg class="plano-mesa" viewBox="0 0 ${r(ancho)} ${r(alto)}"
+    width="${r(ancho * escala)}" height="${r(alto * escala)}"
+    role="group" aria-label="Mesa ${mesa.id}, ${ocupadas} de ${mesa.capacidad} puestos ocupados">
+    ${rects}
+    <rect class="tablero" x="${x0}" y="${y0}" width="${r(anchoMesa)}" height="${r(altoMesa)}" rx="7"/>
+    <text class="rotulo" x="${r(x0 + anchoMesa / 2)}" y="${r(y0 + altoMesa / 2 - 9)}"
+      text-anchor="middle" dominant-baseline="central">${mesa.id}</text>
+  </svg>`;
+  }
+  var r = (n) => Math.round(n * 10) / 10;
+
+  // js/compartido.js
+  function franjaSenal(st) {
+    const s = senal(st);
+    const t = TEXTO_SENAL[s.nivel];
+    const razones = s.razones.length ? s.razones.map((r2) => `<li>${esc(r2)}</li>`).join("") : "<li>Sin condiciones de alerta activas.</li>";
+    return `
+  <section class="senal s-${s.nivel}" role="status" aria-live="polite">
+    <div class="senal-txt">
+      <span class="senal-etiqueta">${icono(s.nivel === "normal" ? "completada" : "alerta")} Estado del turno</span>
+      <h1>${esc(t.titulo)}</h1>
+      <p>${esc(t.sub)}</p>
+    </div>
+    <ul class="senal-razones">${razones}</ul>
+  </section>`;
+  }
+  function tarjetasMetricas(st) {
+    const d = demandaEstimada(st);
+    const inv = totalesInventario(st);
+    const prox = reservasProximas(st, st.umbrales.reservaProximaMin);
+    const tarjeta = (etiqueta, valor, pie, ico) => `
+    <div class="metrica">
+      <span class="metrica-cab">${icono(ico)} ${esc(etiqueta)}</span>
+      <strong>${valor}</strong>
+      <small>${pie}</small>
+    </div>`;
+    return `<section class="metricas">
+    ${tarjeta("Comensales activos", d.personas, `${mesasOcupadas(st).length} mesas ocupadas \xB7 calculado del mapa`, "personas")}
+    ${tarjeta(
+      "Demanda pr\xF3xima",
+      prox.reduce((a, r2) => a + r2.personas, 0),
+      prox.length ? `${prox.length} reserva(s) en \u2264 ${st.umbrales.reservaProximaMin} min` : "sin reservas pr\xF3ximas",
+      "reloj"
+    )}
+    ${tarjeta(
+      "Racks de horno",
+      `${racksDisponibles(st)}/${st.umbrales.racksTotales}`,
+      `${racksOcupados(st)} ocupados \xB7 ${pizzasEnCola(st)} en cola`,
+      "horno"
+    )}
+    ${tarjeta(
+      "Pizzas registradas",
+      inv.total,
+      `${inv.aMesa} a mesa \xB7 ${inv.aDelivery} a delivery`,
+      "completada"
+    )}
+  </section>`;
+  }
+  function panelCocinaNecesita(st) {
+    const d = demandaEstimada(st);
+    const porSabor = demandaPorSabor(st).slice(0, 6);
+    const prox = reservasProximas(st, 30);
+    const postres = mesasEnPostre(st);
+    const golpe = prox.length ? prox.map((r2) => `${r2.personas} personas en ${Math.max(0, r2.faltanMin)} min${r2.grande ? " \xB7 grupo grande" : ""}`).join(" \xB7 ") : "Sin golpe pr\xF3ximo";
+    return `<article class="panel doble">
+    <div class="panel-cab"><h2>Lo que cocina necesita saber de sala</h2></div>
+    <h3>Ahora</h3>
+    <div class="chips">
+      ${chip(`${mesasOcupadas(st).length} mesas`, "", "mesa")}
+      ${chip(`${d.personas} personas`, "", "personas")}
+      ${chip(`\u2248 ${d.pizzasPorRonda} pizzas por ronda`, "", "cola")}
+      ${chip(`${postres.length} mesa(s) en postres`, postres.length ? "c-postre" : "", "postre")}
+    </div>
+    <h3>Lo que viene</h3>
+    <div class="aviso ${prox.length ? "a-alerta" : ""}">${icono(prox.length ? "alerta" : "reloj")}<span>${esc(golpe)}</span></div>
+    <h3>Demanda por sabor \xB7 calculada de las solicitudes</h3>
+    <div class="chips">
+      ${porSabor.length ? porSabor.map((x) => chip(`${esc(nombreSabor(x.saborId))} \xB7 ${x.solicitudes} ${x.solicitudes === 1 ? "solicitud" : "solicitudes"}`, "", "favorito")).join("") : chip("Sin solicitudes abiertas", "c-neutro")}
+    </div>
+  </article>`;
+  }
+  function panelSalaNecesita(st) {
+    const listas = produccionPorEstado(st, "lista");
+    const horno = produccionPorEstado(st, "en_horno");
+    const proximas = colaRotacion(st, 3);
+    const bloqueados = saboresBloqueados(st);
+    const sinServicio = mesasSinServicio(st);
+    return `<article class="panel doble">
+    <div class="panel-cab"><h2>Lo que sala necesita saber de cocina</h2></div>
+    <h3>Saliendo ahora</h3>
+    <div class="chips">
+      ${listas.length ? listas.map((p) => chip(`${esc(nombreSabor(p.saborId))} \xD7${p.cantidad}`, "c-lista", "lista")).join("") : chip("Nada en el pase", "c-neutro", "lista")}
+      ${horno.map((p) => chip(`${esc(nombreSabor(p.saborId))} \xD7${p.cantidad}`, "c-horno", "horno")).join("")}
+    </div>
+    <h3>Pr\xF3ximas en la rotaci\xF3n</h3>
+    <div class="chips">
+      ${proximas.map((e) => chip(
+      `${esc(nombreSabor(e.saborId))}${e.origen === "solicitud" ? " \u2192 " + esc(e.mesaId || "solicitud") : ""}`,
+      e.origen === "solicitud" ? "c-favorito" : "",
+      e.origen === "solicitud" ? "favorito" : "cola"
+    )).join("")}
+    </div>
+    <h3>Presi\xF3n de cocina</h3>
+    <div class="chips">
+      ${chip(`${racksOcupados(st)}/${st.umbrales.racksTotales} racks`, "", "horno")}
+      ${chip(`${pizzasEnCola(st)} en cola`, "", "cola")}
+      ${chip(`${deliveriesEnCola(st).length} pedidos delivery`, deliveriesEnCola(st).length >= st.umbrales.deliveryAdvertencia ? "c-alerta" : "", "delivery")}
+      ${sinServicio.length ? chip(`${sinServicio.length} mesa(s) esperando hace ${fmtMin(sinServicio[0].minutos)}`, "c-alerta", "alerta") : ""}
+    </div>
+    <h3>Disponibilidad</h3>
+    <div class="chips">
+      ${bloqueados.length ? bloqueados.map((b) => chip(`${esc(b.nombre)} \xB7 ${esc(b.motivo)}${b.restante !== null ? ` \xB7 ${b.vencido ? "reposici\xF3n vencida" : b.restante + " min"}` : ""}`, "c-bloqueado", "nodisponible")).join("") : chip("Todos los sabores disponibles", "c-ok", "completada")}
+    </div>
+  </article>`;
+  }
+  function panelesCompartidos(st, abierto = false) {
+    return `<details class="compartido" ${abierto ? "open" : ""}>
+    <summary>${icono("ruta")} Vista compartida cocina \u2194 sala</summary>
+    <div class="dobles">${panelCocinaNecesita(st)}${panelSalaNecesita(st)}</div>
+  </details>`;
+  }
+
+  // js/acciones.js
+  var mesaDe = (st, id) => st.mesas.find((m) => m.id === id);
+  function sentarMesa(mesaId, comensales, rol = "sala", reservaId = null) {
+    return ejecutar(`Sent\xF3 ${comensales} personas en ${mesaId}`, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (!mesa) return;
+      mesa.estado = "ocupada";
+      mesa.comensales = Math.max(1, comensales);
+      mesa.sentadaEn = ahora();
+      mesa.etapa = "salada";
+      mesa.ultimoServicioEn = null;
+      mesa.pizzasRecibidas = 0;
+      mesa.reservaId = reservaId;
+      if (reservaId) {
+        const r2 = st.reservas.find((x) => x.id === reservaId);
+        if (r2) {
+          r2.estado = "sentada";
+          r2.mesaId = mesaId;
+          r2.sentadaEn = ahora();
+        }
+      }
+    });
+  }
+  function marcarPuestos(mesaId, puesto, rol = "sala") {
+    const st0 = obtener();
+    const mesa0 = mesaDe(st0, mesaId);
+    if (!mesa0) return;
+    const estabaOcupada = mesa0.estado === "ocupada";
+    const destino = estabaOcupada && puesto === mesa0.comensales ? puesto - 1 : puesto;
+    if (estabaOcupada && destino <= 0) return liberarMesa(mesaId, rol);
+    const texto = !estabaOcupada ? `Sent\xF3 ${destino} ${destino === 1 ? "persona" : "personas"} en ${mesaId} \xB7 arranca el reloj` : `${mesaId} queda con ${destino} ${destino === 1 ? "persona" : "personas"}`;
+    return ejecutar(texto, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (!mesa) return;
+      mesa.comensales = Math.min(destino, mesa.capacidad);
+      if (!estabaOcupada) {
+        mesa.estado = "ocupada";
+        mesa.sentadaEn = ahora();
+        mesa.etapa = "salada";
+        mesa.ultimoServicioEn = null;
+        mesa.pizzasRecibidas = 0;
+      }
+    });
+  }
+  function actualizarComensales(mesaId, comensales, rol = "sala") {
+    return ejecutar(`Actualiz\xF3 ${mesaId} a ${comensales} personas`, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (mesa) mesa.comensales = Math.max(0, comensales);
+    });
+  }
+  function cambiarEtapa(mesaId, etapa, rol = "sala") {
+    const nombres = { salada: "rotaci\xF3n salada", postre: "postres", cuenta: "cuenta / cierre" };
+    return ejecutar(`${mesaId} pas\xF3 a ${nombres[etapa] || etapa}`, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (mesa) mesa.etapa = etapa;
+    });
+  }
+  function reservarMesa(mesaId, rol = "sala") {
+    return ejecutar(`Marc\xF3 ${mesaId} como reservada`, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (mesa && mesa.estado === "libre") mesa.estado = "reservada";
+    });
+  }
+  function liberarMesa(mesaId, rol = "sala") {
+    return ejecutar(`Cerr\xF3 la mesa ${mesaId}`, rol, (st) => {
+      const mesa = mesaDe(st, mesaId);
+      if (!mesa) return;
+      st.solicitudes.forEach((s) => {
+        if (s.mesaId === mesaId && (s.estado === "pendiente" || s.estado === "en_produccion")) {
+          s.estado = "cancelada";
+          s.cerradaEn = ahora();
+        }
+      });
+      Object.assign(mesa, {
+        estado: "libre",
+        comensales: 0,
+        sentadaEn: null,
+        etapa: "salada",
+        ultimoServicioEn: null,
+        pizzasRecibidas: 0,
+        reservaId: null,
+        nota: ""
+      });
+    });
+  }
+  function crearReserva({ nombre, personas, enMinutos, area = "", mesaId = "" }, rol = "sala") {
+    return ejecutar(`Reserva de ${personas} personas en ${enMinutos} min`, rol, (st) => {
+      st.reservas.push({
+        id: nuevoId("res"),
+        nombre: nombre || "Reserva",
+        personas: Math.max(1, personas),
+        hora: ahora() + enMinutos * 6e4,
+        area,
+        mesaId,
+        estado: "pendiente",
+        creadaEn: ahora()
+      });
+    });
+  }
+  function cancelarReserva(id, rol = "sala") {
+    return ejecutar("Cancel\xF3 una reserva", rol, (st) => {
+      const r2 = st.reservas.find((x) => x.id === id);
+      if (r2) r2.estado = "cancelada";
+    });
+  }
+  function crearSolicitud(datos, rol = "mesonero") {
+    const {
+      tipo,
+      saborId = "",
+      saborId2 = "",
+      mesaId = "",
+      area = "",
+      cantidad = 1,
+      personas = 0,
+      nota = ""
+    } = datos;
+    const destino = mesaId || (area ? `\xE1rea ${area}` : "delivery");
+    const etiqueta = saborId ? nombreSabor(saborId) : tipo;
+    return ejecutar(`Solicitud ${tipo}: ${etiqueta} \u2192 ${destino}`, rol, (st) => {
+      st.solicitudes.push({
+        id: nuevoId("sol"),
+        tipo,
+        // favorito | alergia | postre | delivery
+        saborId,
+        saborId2,
+        mesaId,
+        area,
+        cantidad: Math.max(1, cantidad),
+        personas,
+        nota,
+        estado: "pendiente",
+        // pendiente | en_produccion | servida | cancelada
+        adelantada: false,
+        creadaEn: ahora(),
+        creadaPor: rol
+      });
+    });
+  }
+  function adelantarSolicitud(id, rol = "cocina") {
+    return ejecutar("Adelant\xF3 una solicitud en la cola del rodizio", rol, (st) => {
+      const s = st.solicitudes.find((x) => x.id === id);
+      if (s) s.adelantada = !s.adelantada;
+    });
+  }
+  function cancelarSolicitud(id, rol = "mesonero") {
+    return ejecutar("Cancel\xF3 una solicitud", rol, (st) => {
+      const s = st.solicitudes.find((x) => x.id === id);
+      if (s) {
+        s.estado = "cancelada";
+        s.cerradaEn = ahora();
+      }
+    });
+  }
+  function crearProduccion(datos, rol = "cocina") {
+    const {
+      saborId,
+      saborId2 = "",
+      cantidad = 1,
+      destinoTipo = "rotacion",
+      // mesa | area | delivery | rotacion
+      destinoId = "",
+      tipoSolicitud: tipoSolicitud2 = null,
+      solicitudId = null,
+      deliveryId = null,
+      nota = ""
+    } = datos;
+    return ejecutar(`Cocina march\xF3 ${cantidad} \xD7 ${nombreSabor(saborId)}`, rol, (st) => {
+      const item = {
+        id: nuevoId("pz"),
+        saborId,
+        saborId2,
+        cantidad: Math.max(1, cantidad),
+        destinoTipo,
+        destinoId,
+        tipoSolicitud: tipoSolicitud2,
+        solicitudId,
+        deliveryId,
+        nota,
+        estado: "en_cola",
+        creadoEn: ahora(),
+        estadoDesde: ahora(),
+        inventarioRegistrado: false,
+        historial: [{ estado: "en_cola", ts: ahora(), rol }]
+      };
+      st.produccion.unshift(item);
+      if (solicitudId) {
+        const s = st.solicitudes.find((x) => x.id === solicitudId);
+        if (s) s.estado = "en_produccion";
+      }
+      return item;
+    });
+  }
+  function marcharDeRotacion(entrada, cantidad = 1, rol = "cocina") {
+    if (!entrada) return;
+    if (entrada.origen === "solicitud") {
+      return crearProduccion({
+        saborId: entrada.saborId,
+        cantidad,
+        destinoTipo: entrada.mesaId ? "mesa" : "rotacion",
+        destinoId: entrada.mesaId || "",
+        tipoSolicitud: entrada.tipo,
+        solicitudId: entrada.solicitudId
+      }, rol);
+    }
+    return ejecutar(`Cocina march\xF3 ${cantidad} \xD7 ${nombreSabor(entrada.saborId)} de la rotaci\xF3n`, rol, (st) => {
+      st.produccion.unshift({
+        id: nuevoId("pz"),
+        saborId: entrada.saborId,
+        saborId2: "",
+        cantidad: Math.max(1, cantidad),
+        destinoTipo: "rotacion",
+        destinoId: "",
+        tipoSolicitud: null,
+        solicitudId: null,
+        deliveryId: null,
+        nota: "",
+        estado: "en_cola",
+        creadoEn: ahora(),
+        estadoDesde: ahora(),
+        inventarioRegistrado: false,
+        historial: [{ estado: "en_cola", ts: ahora(), rol }]
+      });
+      st.cursorSecuencia = (st.cursorSecuencia + 1) % st.secuenciaBase.length;
+    });
+  }
+  function saltarEnRotacion(rol = "cocina") {
+    return ejecutar("Cocina salt\xF3 un sabor de la secuencia base", rol, (st) => {
+      st.cursorSecuencia = (st.cursorSecuencia + 1) % st.secuenciaBase.length;
+    });
+  }
+  function cambiarEstadoProduccion(id, nuevoEstado, rol = "cocina", extra = {}) {
+    const st0 = obtener();
+    const item0 = st0.produccion.find((p) => p.id === id);
+    if (!item0 || item0.estado === nuevoEstado) return;
+    const desc = `${nombreSabor(item0.saborId)} \u2192 ${nuevoEstado.replace("_", " ")}`;
+    return ejecutar(desc, rol, (st) => {
+      const item = st.produccion.find((p) => p.id === id);
+      if (!item) return;
+      item.estado = nuevoEstado;
+      item.estadoDesde = ahora();
+      item.historial.push({ estado: nuevoEstado, ts: ahora(), rol, pasadorId: extra.pasadorId || null });
+      if (nuevoEstado === ESTADO_CAPTURA_INVENTARIO && !item.inventarioRegistrado) {
+        item.inventarioRegistrado = true;
+        st.inventario.push({
+          id: nuevoId("inv"),
+          produccionId: item.id,
+          saborId: item.saborId,
+          cantidad: item.cantidad,
+          destinoTipo: item.destinoTipo,
+          destinoId: item.destinoId,
+          ts: ahora(),
+          rol,
+          pasadorId: extra.pasadorId || null
+        });
+        if (item.destinoTipo === "mesa" && item.destinoId) {
+          const mesa = mesaDe(st, item.destinoId);
+          if (mesa) {
+            mesa.ultimoServicioEn = ahora();
+            mesa.pizzasRecibidas += item.cantidad;
+          }
+        }
+        if (item.solicitudId) {
+          const s = st.solicitudes.find((x) => x.id === item.solicitudId);
+          if (s) {
+            s.estado = "servida";
+            s.cerradaEn = ahora();
+          }
+        }
+        if (item.deliveryId) {
+          const d = st.deliveries.find((x) => x.id === item.deliveryId);
+          if (d) {
+            const pendientes = st.produccion.filter((p) => p.deliveryId === d.id && p.estado !== "en_sala" && p.estado !== "completada" && p.estado !== "cancelada");
+            if (!pendientes.length) {
+              d.estado = "despachado";
+              d.cerradoEn = ahora();
+            }
+          }
+        }
+      }
+    });
+  }
+  function marcarRecogida(produccionId, pasadorId, rol = "pase") {
+    const st0 = obtener();
+    const item0 = st0.produccion.find((p) => p.id === produccionId);
+    if (!item0) return;
+    return ejecutar(`Pasador recogi\xF3 ${nombreSabor(item0.saborId)} del pase`, rol, (st) => {
+      const item = st.produccion.find((p) => p.id === produccionId);
+      if (!item) return;
+      if (item.recogidaPor === pasadorId) {
+        item.recogidaPor = null;
+        item.recogidaEn = null;
+      } else {
+        item.recogidaPor = pasadorId;
+        item.recogidaEn = ahora();
+      }
+    });
+  }
+  function confirmarEntrega(produccionId, mesaId, pasadorId, rol = "pase") {
+    const st0 = obtener();
+    const item0 = st0.produccion.find((p) => p.id === produccionId);
+    if (!item0) return;
+    return ejecutar(`Pasador entreg\xF3 ${nombreSabor(item0.saborId)} en ${mesaId}`, rol, (st) => {
+      const item = st.produccion.find((p) => p.id === produccionId);
+      const mesa = mesaDe(st, mesaId);
+      if (!item || !mesa) return;
+      item.destinoTipo = "mesa";
+      item.destinoId = mesaId;
+      item.estado = ESTADO_CAPTURA_INVENTARIO;
+      item.estadoDesde = ahora();
+      item.historial.push({ estado: ESTADO_CAPTURA_INVENTARIO, ts: ahora(), rol, pasadorId });
+      if (!item.inventarioRegistrado) {
+        item.inventarioRegistrado = true;
+        st.inventario.push({
+          id: nuevoId("inv"),
+          produccionId: item.id,
+          saborId: item.saborId,
+          cantidad: item.cantidad,
+          destinoTipo: "mesa",
+          destinoId: mesaId,
+          ts: ahora(),
+          rol,
+          pasadorId
+        });
+      }
+      mesa.ultimoServicioEn = ahora();
+      mesa.pizzasRecibidas += item.cantidad;
+      st.entregas.unshift({
+        id: nuevoId("ent"),
+        produccionId: item.id,
+        saborId: item.saborId,
+        cantidad: item.cantidad,
+        mesaId,
+        area: mesa.area,
+        pasadorId,
+        ts: ahora()
+      });
+      const pasador = st.pasadores.find((p) => p.id === pasadorId);
+      if (pasador) {
+        pasador.ultimaAreaAtendida = mesa.area;
+        pasador.ultimaEntregaEn = ahora();
+        pasador.entregas += 1;
+      }
+      if (item.solicitudId) {
+        const s = st.solicitudes.find((x) => x.id === item.solicitudId);
+        if (s) {
+          s.estado = "servida";
+          s.cerradaEn = ahora();
+        }
+      }
+    });
+  }
+  function cancelarProduccion(id, rol = "cocina") {
+    return cambiarEstadoProduccion(id, "cancelada", rol);
+  }
+  function bloquearSabor({ saborId, motivo, minutos = 0, responsable = "Cocina" }, rol = "cocina") {
+    return ejecutar(`Bloque\xF3 ${nombreSabor(saborId)}: ${motivo}`, rol, (st) => {
+      st.disponibilidad[saborId] = {
+        disponible: false,
+        motivo,
+        minutos: Number(minutos) || 0,
+        desde: ahora(),
+        responsable
+      };
+    });
+  }
+  function liberarSabor(saborId, rol = "cocina") {
+    return ejecutar(`Reactiv\xF3 ${nombreSabor(saborId)}`, rol, (st) => {
+      delete st.disponibilidad[saborId];
+    });
+  }
+  function crearDelivery({ referencia, items, nota = "" }, rol = "cocina") {
+    const total = items.reduce((a, i) => a + i.cantidad, 0);
+    return ejecutar(`Delivery ${referencia}: ${total} pizzas`, rol, (st) => {
+      const id = nuevoId("del");
+      st.deliveries.unshift({
+        id,
+        referencia: referencia || "Pedido delivery",
+        items,
+        nota,
+        estado: "en_cola",
+        creadoEn: ahora()
+      });
+      items.forEach((i) => {
+        st.produccion.unshift({
+          id: nuevoId("pz"),
+          saborId: i.saborId,
+          saborId2: "",
+          cantidad: i.cantidad,
+          destinoTipo: "delivery",
+          destinoId: referencia,
+          tipoSolicitud: "delivery",
+          solicitudId: null,
+          deliveryId: id,
+          nota,
+          estado: "en_cola",
+          creadoEn: ahora(),
+          estadoDesde: ahora(),
+          inventarioRegistrado: false,
+          historial: [{ estado: "en_cola", ts: ahora(), rol }]
+        });
+      });
+    });
+  }
+  function cerrarDelivery(id, rol = "cocina") {
+    return ejecutar("Cerr\xF3 un pedido delivery", rol, (st) => {
+      const d = st.deliveries.find((x) => x.id === id);
+      if (d) {
+        d.estado = "despachado";
+        d.cerradoEn = ahora();
+      }
+    });
+  }
+  function ajustarUmbral(clave, valor, rol = "simulacion") {
+    return ejecutar(`Umbral ${clave} = ${valor}`, rol, (st) => {
+      st.umbrales[clave] = Number(valor);
+      if (clave === "pasadoresPorTurno") {
+        const activos = st.pasadores.slice(0, Number(valor));
+        const faltan = pasadoresPorDefecto(Number(valor)).slice(activos.length);
+        st.pasadores = [...activos, ...faltan];
+      }
+    });
+  }
+  function moverEnSecuencia(indice, delta, rol = "simulacion") {
+    return ejecutar("Reorden\xF3 la secuencia base", rol, (st) => {
+      const destino = indice + delta;
+      if (destino < 0 || destino >= st.secuenciaBase.length) return;
+      const copia = [...st.secuenciaBase];
+      [copia[indice], copia[destino]] = [copia[destino], copia[indice]];
+      st.secuenciaBase = copia;
+    });
+  }
+  function quitarDeSecuencia(indice, rol = "simulacion") {
+    return ejecutar("Quit\xF3 un sabor de la secuencia base", rol, (st) => {
+      st.secuenciaBase = st.secuenciaBase.filter((_, i) => i !== indice);
+      if (st.cursorSecuencia >= st.secuenciaBase.length) st.cursorSecuencia = 0;
+    });
+  }
+  function agregarASecuencia(saborId, rol = "simulacion") {
+    return ejecutar(`Agreg\xF3 ${nombreSabor(saborId)} a la secuencia base`, rol, (st) => {
+      st.secuenciaBase.push(saborId);
+    });
+  }
+  function adelantarReloj(minutos, rol = "simulacion") {
+    return ejecutar(`Adelant\xF3 el reloj ${minutos} min`, rol, (st) => {
+      st.desfaseMs = (st.desfaseMs || 0) + minutos * 6e4;
+    });
+  }
+
+  // js/vistas/sala.js
+  var mesaSeleccionada = null;
+  function tarjetaMesa(st, m, opciones = {}) {
+    const nivelT = nivelTiempoMesa(st, m);
+    const nivelS = nivelSinServicio(st, m);
+    const sentada = minutosSentada(st, m);
+    const sinServ = minutosSinServicio(st, m);
+    const etapa = ETAPAS_MESA.find((e) => e.id === m.etapa) || ETAPAS_MESA[0];
+    const solicitudes = solicitudesDeMesa(st, m.id);
+    const alergias = solicitudes.filter((s) => s.tipo === "alergia");
+    const favoritos = solicitudes.filter((s) => s.tipo === "favorito");
+    const postres = solicitudes.filter((s) => s.tipo === "postre");
+    const clases = [
+      "mesa",
+      "m-" + m.estado,
+      opciones.seleccionada ? "sel" : "",
+      m.estado === "ocupada" && nivelS !== "ok" ? "sin-servicio" : ""
+    ].join(" ");
+    return `<div class="${clases}" data-mesa="${esc(m.id)}" role="group" aria-label="Mesa ${esc(m.id)}">
+    <span class="mesa-plano">
+      ${dibujoMesa(m, m.estado === "ocupada" ? m.comensales : 0, { escala: 1.3 })}
+      ${m.estado === "ocupada" ? `<span class="timer sobre t-${nivelT}">${icono("reloj")}${sentada}\u2032</span>` : ""}
+    </span>
+    <span class="mesa-marcas">
+      ${favoritos.map(() => `<span class="mk ma-fav" title="Sabor favorito pedido">${icono("favorito")}</span>`).join("")}
+      ${alergias.map(() => `<span class="mk ma-ale" title="Alergia o excepci\xF3n">${icono("alergia")}</span>`).join("")}
+      ${postres.length || m.etapa === "postre" ? `<span class="mk ma-pos" title="Postre">${icono("postre")}</span>` : ""}
+      ${m.estado === "ocupada" && nivelS !== "ok" ? `<span class="mk ma-ale" title="Lleva rato sin pizza">${icono("alerta")}</span>` : ""}
+    </span>
+    <button type="button" class="mesa-cuerpo" data-abrir-mesa="${esc(m.id)}"
+      aria-pressed="${opciones.seleccionada ? "true" : "false"}">
+      ${m.estado === "ocupada" ? `<span class="mesa-personas">${icono("personas")}<b>${m.comensales}</b><small>de ${m.capacidad} puestos</small></span>
+           <span class="mesa-etapa">${icono(etapa.icono)}${esc(etapa.nombre)}</span>
+           <span class="mesa-serv s-${nivelS}">${icono(nivelS === "ok" ? "sala" : "alerta")}${m.pizzasRecibidas ? "\xFAltima pizza hace " + sinServ + "\u2032" : "sin pizza hace " + sinServ + "\u2032"}</span>` : `<span class="mesa-personas libre">${icono("personas")}<small>${m.capacidad} puestos</small></span>
+           <span class="mesa-etapa">${icono(m.estado === "reservada" ? "reloj" : "mesa")}${m.estado === "reservada" ? "Toca un puesto para sentar" : "Libre"}</span>`}
+    </button>
+  </div>`;
+  }
+  function mapa(st) {
+    const resumen = resumenPorArea(st);
+    return resumen.map((area) => `
+    <section class="area">
+      <header class="area-cab">
+        <h3><span class="punto" style="background:${area.color}"></span>${esc(area.nombre)}</h3>
+        <div class="chips mini">
+          ${chip(`${area.mesasOcupadas}/${area.mesas.length} mesas`, "", "mesa")}
+          ${chip(`${area.comensales} personas`, "", "personas")}
+          ${area.mesasSinServicio ? chip(`${area.mesasSinServicio} sin servicio`, "c-alerta", "alerta") : ""}
+        </div>
+      </header>
+      ${area.notas ? `<p class="area-nota">${esc(area.notas)}</p>` : ""}
+      <div class="mesas">
+        ${area.mesas.map((m) => tarjetaMesa(st, m, { seleccionada: m.id === mesaSeleccionada })).join("")}
+      </div>
+    </section>`).join("");
+  }
+  function detalleMesa(st) {
+    const m = st.mesas.find((x) => x.id === mesaSeleccionada);
+    if (!m) return `<div class="detalle vacia">${icono("mesa")}<span>Selecciona una mesa del mapa para sentarla, actualizarla o cerrarla.</span></div>`;
+    const reservas = reservasPendientes(st).filter((r2) => !r2.mesaId || r2.mesaId === m.id);
+    const solicitudes = solicitudesDeMesa(st, m.id);
+    if (m.estado !== "ocupada") {
+      return `<div class="detalle">
+      <div class="detalle-cab"><h3>${icono("mesa")} Mesa ${esc(m.id)} \xB7 ${esc(nombreArea(m.area))}</h3>
+        <span class="muted">Capacidad ${m.capacidad}</span></div>
+      <div class="fila">
+        <label for="nPersonas">Personas que se sientan</label>
+        ${contador("nPersonas", Math.min(2, m.capacidad), 1, 20)}
+      </div>
+      <div class="fila">
+        <label for="reservaLigada">Asociar a una reserva (opcional)</label>
+        <select id="reservaLigada">
+          <option value="">Sin reserva \xB7 llegada directa</option>
+          ${reservas.map((r2) => `<option value="${r2.id}">${esc(r2.nombre)} \xB7 ${r2.personas} pers. \xB7 ${fmtHora(r2.hora)}</option>`).join("")}
+        </select>
+      </div>
+      <div class="acciones">
+        <button class="btn primario" data-accion="sentar">${icono("personas")} Sentar mesa</button>
+        ${m.estado === "libre" ? `<button class="btn" data-accion="reservar">${icono("reloj")} Marcar reservada</button>` : `<button class="btn" data-accion="liberar">${icono("cancelada")} Liberar</button>`}
+      </div>
+    </div>`;
+    }
+    const sentada = minutosSentada(st, m);
+    const nivelT = nivelTiempoMesa(st, m);
+    return `<div class="detalle">
+    <div class="detalle-cab">
+      <h3>${icono("mesa")} Mesa ${esc(m.id)} \xB7 ${esc(nombreArea(m.area))}</h3>
+      <span class="timer t-${nivelT}">${icono("reloj")}${sentada}\u2032 de ${st.umbrales.limiteMesaMin}\u2032</span>
+    </div>
+    <div class="fila">
+      <label for="nPersonas">Personas en la mesa</label>
+      ${contador("nPersonas", m.comensales, 1, 20)}
+      <button class="btn" data-accion="actualizar">Actualizar</button>
+    </div>
+    <div class="fila">
+      <label>Etapa del servicio</label>
+      <div class="segmentado">
+        ${ETAPAS_MESA.map((e) => `<button class="seg ${m.etapa === e.id ? "act" : ""}" data-etapa="${e.id}">${icono(e.icono)}${esc(e.nombre)}</button>`).join("")}
+      </div>
+    </div>
+    <div class="fila">
+      <label>Solicitudes abiertas</label>
+      ${solicitudes.length ? `<ul class="lista-sol">${solicitudes.map((s) => `<li>${etiquetaTipo(s.tipo)} ${lineaSolicitud(s)}${s.nota ? ` <span class="muted">\xB7 ${esc(s.nota)}</span>` : ""}</li>`).join("")}</ul>` : '<p class="muted">Sin solicitudes registradas para esta mesa.</p>'}
+    </div>
+    <div class="acciones">
+      <button class="btn peligro" data-accion="cerrar">${icono("completada")} Cerrar mesa</button>
+    </div>
+  </div>`;
+  }
+  function panelReservas(st) {
+    const reservas = reservasPendientes(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("reloj")} Reservas pr\xF3ximas</h2>
+      <span class="muted">${reservas.length} pendientes \xB7 alimentan la demanda proyectada</span></div>
+    ${reservas.length ? `<ul class="lista-res">${reservas.map((r2) => `
+      <li class="${r2.grande ? "grande" : ""} ${r2.adelantada ? "adelantada" : ""}">
+        <div>
+          <b>${esc(r2.nombre)}</b>
+          <span class="chips mini">
+            ${chip(`${r2.personas} personas`, r2.grande ? "c-alerta" : "", "personas")}
+            ${chip(fmtHora(r2.hora), "", "reloj")}
+            ${chip(r2.adelantada ? `lleg\xF3 antes \xB7 ${Math.abs(r2.faltanMin)} min` : `en ${r2.faltanMin} min`, r2.adelantada ? "c-alerta" : "")}
+            ${r2.area ? chip(nombreArea(r2.area)) : ""}
+            ${r2.grande ? chip("grupo grande", "c-alerta", "alerta") : ""}
+          </span>
+        </div>
+        <button class="btn pequeno" data-cancelar-reserva="${r2.id}">Cancelar</button>
+      </li>`).join("")}</ul>` : vacio("Sin reservas cargadas.", "reloj")}
+    <form class="form-linea" id="formReserva">
+      <div><label for="rNombre">Nombre</label><input id="rNombre" type="text" placeholder="Reserva" maxlength="40"></div>
+      <div><label for="rPersonas">Personas</label>${contador("rPersonas", 8, 1, 40)}</div>
+      <div><label for="rMinutos">Llega en (min)</label>${contador("rMinutos", 20, 0, 240)}</div>
+      <div><label for="rArea">\xC1rea</label><select id="rArea"><option value="">Sin definir</option>${AREAS.map((a) => `<option value="${a.id}">${esc(a.nombre)}</option>`).join("")}</select></div>
+      <button class="btn primario" type="submit">${icono("mas")} Agregar reserva</button>
+    </form>
+  </section>`;
+  }
+  function html(st) {
+    return `
+  ${franjaSenal(st)}
+  ${tarjetasMetricas(st)}
+  ${panelesCompartidos(st)}
+  <section class="panel">
+    <div class="panel-cab">
+      <h2>${icono("mesa")} Mapa de sala</h2>
+      <span class="muted">${comensalesActivos(st)} comensales activos \xB7 calculado de las mesas, sin contador aparte</span>
+    </div>
+    <p class="supuesto">${icono("alerta")}<span>El plano de mesas y los nombres de las \xE1reas son <b>supuestos del prototipo</b>: operaciones debe confirmarlos.</span></p>
+    <p class="ayuda">${icono("personas")}<span><b>Toca los puestos sobre la mesa</b> para marcar cu\xE1nta gente se sent\xF3: el reloj de los ${st.umbrales.limiteMesaMin} minutos arranca solo. Tocar el \xFAltimo puesto ocupado lo libera.</span></p>
+    <div class="mapa">${mapa(st)}</div>
+    ${detalleMesa(st)}
+  </section>
+  ${panelReservas(st)}`;
+  }
+  function montar(raiz, st) {
+    activarContadores(raiz);
+    const alternarSeleccion = (id) => {
+      mesaSeleccionada = mesaSeleccionada === id ? null : id;
+      window.dispatchEvent(new CustomEvent("redibujar"));
+    };
+    raiz.querySelectorAll("[data-mesa-silla]").forEach((silla) => {
+      const marcar = (ev) => {
+        ev.preventDefault();
+        ev.stopPropagation();
+        marcarPuestos(silla.dataset.mesaSilla, Number(silla.dataset.silla));
+      };
+      silla.addEventListener("click", marcar);
+      silla.addEventListener("keydown", (ev) => {
+        if (ev.key === "Enter" || ev.key === " ") marcar(ev);
+      });
+    });
+    raiz.querySelectorAll(".mapa [data-mesa]").forEach((tarjeta) => {
+      tarjeta.addEventListener("click", (ev) => {
+        if (ev.target.closest("[data-mesa-silla]")) return;
+        alternarSeleccion(tarjeta.dataset.mesa);
+      });
+    });
+    raiz.querySelectorAll("[data-abrir-mesa]").forEach((btn) => {
+      btn.addEventListener("click", (ev) => {
+        ev.stopPropagation();
+        alternarSeleccion(btn.dataset.abrirMesa);
+      });
+    });
+    const detalle = raiz.querySelector(".detalle");
+    if (detalle) {
+      detalle.querySelectorAll("[data-accion]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const n = Number(raiz.querySelector("#nPersonas")?.value || 1);
+          const reservaId = raiz.querySelector("#reservaLigada")?.value || null;
+          switch (btn.dataset.accion) {
+            case "sentar":
+              sentarMesa(mesaSeleccionada, n, "sala", reservaId || null);
+              break;
+            case "actualizar":
+              actualizarComensales(mesaSeleccionada, n);
+              break;
+            case "reservar":
+              reservarMesa(mesaSeleccionada);
+              break;
+            case "liberar":
+              liberarMesa(mesaSeleccionada);
+              break;
+            case "cerrar":
+              liberarMesa(mesaSeleccionada);
+              mesaSeleccionada = null;
+              break;
+          }
+        });
+      });
+      detalle.querySelectorAll("[data-etapa]").forEach((btn) => {
+        btn.addEventListener("click", () => cambiarEtapa(mesaSeleccionada, btn.dataset.etapa));
+      });
+    }
+    raiz.querySelectorAll("[data-cancelar-reserva]").forEach((btn) => {
+      btn.addEventListener("click", () => cancelarReserva(btn.dataset.cancelarReserva));
+    });
+    const form = raiz.querySelector("#formReserva");
+    if (form) {
+      form.addEventListener("submit", (ev) => {
+        ev.preventDefault();
+        crearReserva({
+          nombre: raiz.querySelector("#rNombre").value.trim() || "Reserva",
+          personas: Number(raiz.querySelector("#rPersonas").value) || 1,
+          enMinutos: Number(raiz.querySelector("#rMinutos").value) || 0,
+          area: raiz.querySelector("#rArea").value
+        });
+      });
+    }
+  }
+
+  // js/vistas/cocina.js
+  var cocina_exports = {};
+  __export(cocina_exports, {
+    html: () => html2,
+    montar: () => montar2
+  });
+  var SIGUIENTE = {
+    en_cola: "en_preparacion",
+    en_preparacion: "en_horno",
+    en_horno: "lista",
+    lista: "en_sala",
+    en_sala: "completada"
+  };
+  var filtroEstado = "activas";
+  function panelRotacion(st) {
+    const cola = colaRotacion(st, 8);
+    return `<section class="panel">
+    <div class="panel-cab">
+      <h2>${icono("ruta")} Cola del rodizio</h2>
+      <span class="muted">La secuencia base se intercala con los favoritos pedidos. Un favorito no reemplaza el pr\xF3ximo sabor base.</span>
+    </div>
+    <ol class="rotacion">
+      ${cola.map((e, i) => `
+        <li class="rot ${e.origen === "solicitud" ? "r-sol" : ""} ${e.bloqueado ? "r-bloq" : ""}">
+          <span class="rot-num">${i + 1}</span>
+          <span class="rot-txt">
+            <b>${esc(nombreSabor(e.saborId))}</b>
+            ${e.origen === "solicitud" ? `<small>${icono("favorito")} favorito ${e.mesaId ? "\u2192 Mesa " + esc(e.mesaId) : ""} \xB7 pedido hace ${e.esperaMin}\u2032${e.adelantada ? " \xB7 adelantado" : ""}</small>` : `<small>${icono("cola")} secuencia base \xB7 posici\xF3n ${e.posicion}</small>`}
+            ${e.bloqueado ? `<small class="alerta-txt">${icono("nodisponible")} sabor bloqueado</small>` : ""}
+          </span>
+          <span class="rot-acc">
+            ${e.origen === "solicitud" ? `<button class="btn pequeno" data-adelantar="${e.solicitudId}">${e.adelantada ? "Quitar del frente" : "Adelantar"}</button>` : ""}
+            <button class="btn pequeno primario" data-marchar="${e.clave}" ${e.bloqueado ? "disabled" : ""}>Marchar</button>
+          </span>
+        </li>`).join("")}
+    </ol>
+    <div class="acciones">
+      <label for="cantMarchar" class="muted">Cantidad a marchar</label>
+      ${contador("cantMarchar", 1, 1, 12)}
+      <button class="btn" data-accion="saltar">${icono("cancelada")} Saltar sabor base</button>
+    </div>
+  </section>`;
+  }
+  function tarjetaProduccion(st, p) {
+    const min2 = minutosEnEstado(st, p);
+    const retraso = estaRetrasado(st, p);
+    const siguiente = SIGUIENTE[p.estado];
+    const cerrado = p.estado === "completada" || p.estado === "cancelada";
+    return `<li class="pz ${retraso ? "pz-retraso" : ""} ${cerrado ? "pz-cerrada" : ""}">
+    <div class="pz-info">
+      <b class="pz-sabor">${esc(nombreSabor(p.saborId))} <span class="cant">\xD7${p.cantidad}</span></b>
+      <div class="pz-meta">
+        ${etiquetaEstado(p.estado)}
+        <span class="destino">${icono(p.destinoTipo === "delivery" ? "delivery" : "mesa")} ${esc(textoDestino(p))}</span>
+        ${p.tipoSolicitud ? etiquetaTipo(p.tipoSolicitud) : ""}
+        <span class="tiempo ${retraso ? "alerta-txt" : "muted"}">${icono("reloj")} ${min2}\u2032 en este estado${retraso ? " \xB7 retrasada" : ""}</span>
+      </div>
+      ${p.nota ? `<small class="muted">${esc(p.nota)}</small>` : ""}
+      ${p.inventarioRegistrado ? `<small class="ok-txt">${icono("completada")} Inventario registrado (${p.cantidad})</small>` : ""}
+    </div>
+    <div class="pz-acc">
+      ${siguiente && !cerrado ? `<button class="btn pequeno primario" data-avanzar="${p.id}" data-siguiente="${siguiente}">
+            ${icono(ESTADOS_PRODUCCION.find((e) => e.id === siguiente).icono)} ${esc(ESTADOS_PRODUCCION.find((e) => e.id === siguiente).nombre)}
+          </button>` : ""}
+      ${!cerrado ? `<button class="btn pequeno" data-cancelar="${p.id}">${icono("cancelada")} Cancelar</button>` : ""}
+    </div>
+  </li>`;
+  }
+  function panelProduccion(st) {
+    const activas = produccionActiva(st);
+    const lista = filtroEstado === "activas" ? activas : filtroEstado === "todas" ? st.produccion : st.produccion.filter((p) => p.estado === filtroEstado);
+    const orden = ["en_cola", "en_preparacion", "en_horno", "lista", "en_sala", "completada", "cancelada"];
+    const ordenada = [...lista].sort((a, b) => orden.indexOf(a.estado) - orden.indexOf(b.estado) || a.creadoEn - b.creadoEn);
+    return `<section class="panel">
+    <div class="panel-cab">
+      <h2>${icono("cola")} Producci\xF3n</h2>
+      <span class="muted">${activas.reduce((a, p) => a + p.cantidad, 0)} pizzas en curso \xB7 el paso a \u201CEn sala\u201D registra el inventario una sola vez</span>
+    </div>
+    <div class="filtros">
+      <button class="filtro ${filtroEstado === "activas" ? "act" : ""}" data-filtro="activas">En curso</button>
+      ${ESTADOS_PRODUCCION.map((e) => `<button class="filtro ${filtroEstado === e.id ? "act" : ""}" data-filtro="${e.id}">${icono(e.icono)}${esc(e.nombre)} <span class="n">${st.produccion.filter((p) => p.estado === e.id).length}</span></button>`).join("")}
+      <button class="filtro ${filtroEstado === "todas" ? "act" : ""}" data-filtro="todas">Todas</button>
+    </div>
+    ${ordenada.length ? `<ul class="pizzas">${ordenada.map((p) => tarjetaProduccion(st, p)).join("")}</ul>` : vacio("No hay pizzas en este estado.", "cola")}
+  </section>`;
+  }
+  function panelAgregar(st) {
+    const mesasOcupadas2 = st.mesas.filter((m) => m.estado === "ocupada");
+    const disponibles = SABORES.filter((s) => !estaBloqueado(st, s.id));
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("mas")} Marchar fuera de la cola</h2>
+      <span class="muted">Varias pizzas del mismo sabor en una sola acci\xF3n</span></div>
+    <form class="form-linea" id="formProduccion">
+      <div><label for="pSabor">Sabor</label><select id="pSabor" required>${opcionesSabor(disponibles)}</select></div>
+      <div><label for="pCantidad">Cantidad</label>${contador("pCantidad", 2, 1, 12)}</div>
+      <div><label for="pDestino">Destino</label>
+        <select id="pDestino">
+          <option value="rotacion">Rotaci\xF3n general</option>
+          <optgroup label="Mesa">${mesasOcupadas2.map((m) => `<option value="mesa:${m.id}">Mesa ${esc(m.id)} \xB7 ${esc(nombreArea(m.area))}</option>`).join("")}</optgroup>
+          <optgroup label="\xC1rea">${AREAS.map((a) => `<option value="area:${a.id}">\xC1rea ${esc(a.nombre)}</option>`).join("")}</optgroup>
+        </select>
+      </div>
+      <button class="btn primario" type="submit">${icono("mas")} Marchar</button>
+    </form>
+  </section>`;
+  }
+  function panelHornos(st) {
+    const d = demandaEstimada(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("horno")} Capacidad de horno</h2>
+      <span class="muted">Los racks bajan cuando un horno no est\xE1 disponible</span></div>
+    <div class="racks">
+      ${Array.from({ length: st.umbrales.racksTotales }, (_, i) => `<span class="rack ${i < racksOcupados(st) ? "ocupado" : ""}">${icono(i < racksOcupados(st) ? "horno" : "cola")}</span>`).join("")}
+    </div>
+    <div class="fila">
+      <label for="racksTotales">Racks disponibles en el turno</label>
+      ${contador("racksTotales", st.umbrales.racksTotales, 1, 12)}
+      <button class="btn" data-accion="racks">Actualizar</button>
+    </div>
+    <div class="chips">
+      ${chip(`${racksOcupados(st)} ocupados \xB7 ${racksDisponibles(st)} libres`, "", "horno")}
+      ${chip(`Demanda estimada: ${d.pizzasPorRonda} pizzas por ronda`, "", "personas")}
+      ${chip(`Con reservas pr\xF3ximas: ${d.pizzasConReservas}`, d.pizzasConReservas > d.pizzasPorRonda ? "c-alerta" : "", "reloj")}
+    </div>
+  </section>`;
+  }
+  function panelDisponibilidad(st) {
+    const bloqueados = saboresBloqueados(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("nodisponible")} Disponibilidad de sabores</h2>
+      <span class="muted">El bloqueo se ve al instante en sala, pase y mesoneros</span></div>
+    ${bloqueados.length ? `<ul class="lista-bloq">${bloqueados.map((b) => `
+      <li>
+        <div><b>${esc(b.nombre)}</b>
+          <span class="chips mini">
+            ${chip(esc(b.motivo), "c-bloqueado", "nodisponible")}
+            ${b.minutos ? chip(b.vencido ? "reposici\xF3n vencida" : `repone en ${b.restante} min`, b.vencido ? "c-alerta" : "", "reloj") : ""}
+            ${chip(`bloqueado hace ${b.transcurrido}\u2032 \xB7 ${esc(b.responsable)}`)}
+          </span>
+        </div>
+        <button class="btn pequeno" data-liberar="${b.saborId}">Reactivar</button>
+      </li>`).join("")}</ul>` : vacio("Todos los sabores est\xE1n disponibles.", "completada")}
+    <form class="form-linea" id="formBloqueo">
+      <div><label for="bSabor">Sabor</label><select id="bSabor" required>${opcionesSabor([...SABORES, ...POSTRES])}</select></div>
+      <div><label for="bMotivo">Ingrediente o motivo</label><input id="bMotivo" type="text" placeholder="Sin trufa" maxlength="60" required></div>
+      <div><label for="bMinutos">Reposici\xF3n (min)</label>${contador("bMinutos", 30, 0, 240)}</div>
+      <div><label for="bResp">Responsable</label><input id="bResp" type="text" value="Cocina" maxlength="30"></div>
+      <button class="btn primario" type="submit">${icono("nodisponible")} Bloquear sabor</button>
+    </form>
+  </section>`;
+  }
+  function panelPostres(st) {
+    const c = colaPostres(st);
+    const mesas = mesasEnPostre(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("postre")} Cola de postres</h2>
+      <span class="muted">Fuera de la rotaci\xF3n salada \xB7 ${c.bases} base(s) por preparar</span></div>
+    <div class="chips">
+      ${chip(`${c.personas} personas en postres`, "", "personas")}
+      ${chip(`${mesas.length} mesa(s) en etapa postre`, "", "mesa")}
+      ${chip(`${c.bases} bases necesarias`, c.bases ? "c-postre" : "", "postre")}
+      ${c.porSabor.map((x) => chip(`${esc(nombreSabor(x.saborId))} \xB7 ${x.cantidad}`, "", "postre")).join("")}
+    </div>
+    ${c.solicitudes.length ? `<ul class="lista-sol">${c.solicitudes.map((s) => `
+      <li>
+        <div>${lineaSolicitud(s)} ${chip(`${s.cantidad} base(s)`, "", "postre")} ${s.personas ? chip(`${s.personas} personas`, "", "personas") : ""} ${s.saborId2 ? chip("mitad y mitad", "c-postre") : ""}</div>
+        <div class="pz-acc">
+          <button class="btn pequeno primario" data-postre-producir="${s.id}">Marchar</button>
+          <button class="btn pequeno" data-cancelar-sol="${s.id}">Cancelar</button>
+        </div>
+      </li>`).join("")}</ul>` : vacio("Ninguna mesa pidi\xF3 postre todav\xEDa.", "postre")}
+  </section>`;
+  }
+  function panelDelivery(st) {
+    const cola = deliveriesEnCola(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("delivery")} Pedidos delivery</h2>
+      <span class="muted">Compiten por los mismos racks que la sala</span></div>
+    ${cola.length ? `<ul class="lista-sol">${cola.map((d) => `
+      <li>
+        <div><b>${esc(d.referencia)}</b> <span class="muted">${d.items.map((i) => `${esc(nombreSabor(i.saborId))} \xD7${i.cantidad}`).join(" \xB7 ")}</span></div>
+        <button class="btn pequeno" data-cerrar-delivery="${d.id}">Marcar despachado</button>
+      </li>`).join("")}</ul>` : vacio("Sin pedidos delivery en cola.", "delivery")}
+    <form class="form-linea" id="formDelivery">
+      <div><label for="dRef">Referencia</label><input id="dRef" type="text" placeholder="Pedido #124" maxlength="30"></div>
+      <div><label for="dSabor">Sabor</label><select id="dSabor" required>${opcionesSabor(SABORES.filter((s) => !estaBloqueado(st, s.id)))}</select></div>
+      <div><label for="dCantidad">Cantidad</label>${contador("dCantidad", 2, 1, 12)}</div>
+      <button class="btn primario" type="submit">${icono("mas")} Cargar pedido</button>
+    </form>
+  </section>`;
+  }
+  function panelSolicitudes(st) {
+    const abiertas = solicitudesPendientes(st, ["favorito", "alergia"]);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("favorito")} Solicitudes de sala</h2>
+      <span class="muted">${abiertas.length} abiertas \xB7 calculado, sin contador manual</span></div>
+    ${abiertas.length ? `<ul class="lista-sol">${abiertas.map((s) => `
+      <li>
+        <div>${etiquetaTipo(s.tipo)} ${lineaSolicitud(s)} ${s.nota ? `<span class="muted">\xB7 ${esc(s.nota)}</span>` : ""}
+          ${s.estado === "en_produccion" ? chip("en producci\xF3n", "c-lista", "preparacion") : ""}</div>
+        <div class="pz-acc">
+          ${s.tipo === "favorito" && s.estado === "pendiente" ? `<button class="btn pequeno" data-adelantar="${s.id}">${s.adelantada ? "Quitar del frente" : "Adelantar"}</button>` : ""}
+          ${s.estado === "pendiente" ? `<button class="btn pequeno primario" data-sol-producir="${s.id}">Marchar</button>` : ""}
+        </div>
+      </li>`).join("")}</ul>` : vacio("Sin solicitudes abiertas.", "favorito")}
+  </section>`;
+  }
+  function html2(st) {
+    return `
+  ${franjaSenal(st)}
+  ${tarjetasMetricas(st)}
+  ${panelesCompartidos(st)}
+  ${panelRotacion(st)}
+  ${panelSolicitudes(st)}
+  ${panelProduccion(st)}
+  <div class="dobles">${panelAgregar(st)}${panelHornos(st)}</div>
+  <div class="dobles">${panelPostres(st)}${panelDisponibilidad(st)}</div>
+  ${panelDelivery(st)}`;
+  }
+  function montar2(raiz, st) {
+    activarContadores(raiz);
+    const cantidad = () => Number(raiz.querySelector("#cantMarchar")?.value || 1);
+    raiz.querySelectorAll("[data-marchar]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const entrada = colaRotacion(st, 8).find((e) => e.clave === btn.dataset.marchar);
+        marcharDeRotacion(entrada, cantidad());
+      });
+    });
+    raiz.querySelectorAll("[data-adelantar]").forEach((btn) => {
+      btn.addEventListener("click", () => adelantarSolicitud(btn.dataset.adelantar));
+    });
+    raiz.querySelectorAll("[data-avanzar]").forEach((btn) => {
+      btn.addEventListener("click", () => cambiarEstadoProduccion(btn.dataset.avanzar, btn.dataset.siguiente, "cocina"));
+    });
+    raiz.querySelectorAll("[data-cancelar]").forEach((btn) => {
+      btn.addEventListener("click", () => cancelarProduccion(btn.dataset.cancelar));
+    });
+    raiz.querySelectorAll("[data-filtro]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filtroEstado = btn.dataset.filtro;
+        window.dispatchEvent(new CustomEvent("redibujar"));
+      });
+    });
+    raiz.querySelectorAll("[data-liberar]").forEach((btn) => {
+      btn.addEventListener("click", () => liberarSabor(btn.dataset.liberar));
+    });
+    raiz.querySelectorAll("[data-cancelar-sol]").forEach((btn) => {
+      btn.addEventListener("click", () => cancelarSolicitud(btn.dataset.cancelarSol, "cocina"));
+    });
+    raiz.querySelectorAll("[data-cerrar-delivery]").forEach((btn) => {
+      btn.addEventListener("click", () => cerrarDelivery(btn.dataset.cerrarDelivery));
+    });
+    raiz.querySelectorAll("[data-sol-producir]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const s = st.solicitudes.find((x) => x.id === btn.dataset.solProducir);
+        if (!s) return;
+        crearProduccion({
+          saborId: s.saborId,
+          cantidad: s.cantidad,
+          destinoTipo: s.mesaId ? "mesa" : "rotacion",
+          destinoId: s.mesaId || "",
+          tipoSolicitud: s.tipo,
+          solicitudId: s.id,
+          nota: s.nota
+        });
+      });
+    });
+    raiz.querySelectorAll("[data-postre-producir]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const s = st.solicitudes.find((x) => x.id === btn.dataset.postreProducir);
+        if (!s) return;
+        crearProduccion({
+          saborId: s.saborId,
+          saborId2: s.saborId2,
+          cantidad: s.cantidad,
+          destinoTipo: s.mesaId ? "mesa" : "rotacion",
+          destinoId: s.mesaId || "",
+          tipoSolicitud: "postre",
+          solicitudId: s.id,
+          nota: s.saborId2 ? "Mitad y mitad" : ""
+        });
+      });
+    });
+    const accionRacks = raiz.querySelector('[data-accion="racks"]');
+    if (accionRacks) accionRacks.addEventListener("click", () => {
+      ajustarUmbral("racksTotales", Number(raiz.querySelector("#racksTotales").value) || 1, "cocina");
+    });
+    const saltar = raiz.querySelector('[data-accion="saltar"]');
+    if (saltar) saltar.addEventListener("click", () => saltarEnRotacion());
+    const fp = raiz.querySelector("#formProduccion");
+    if (fp) fp.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const destino = raiz.querySelector("#pDestino").value;
+      const [tipo, id] = destino.includes(":") ? destino.split(":") : ["rotacion", ""];
+      crearProduccion({
+        saborId: raiz.querySelector("#pSabor").value,
+        cantidad: Number(raiz.querySelector("#pCantidad").value) || 1,
+        destinoTipo: tipo,
+        destinoId: id
+      });
+    });
+    const fb = raiz.querySelector("#formBloqueo");
+    if (fb) fb.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      bloquearSabor({
+        saborId: raiz.querySelector("#bSabor").value,
+        motivo: raiz.querySelector("#bMotivo").value.trim() || "Sin ingrediente",
+        minutos: Number(raiz.querySelector("#bMinutos").value) || 0,
+        responsable: raiz.querySelector("#bResp").value.trim() || "Cocina"
+      });
+    });
+    const fd = raiz.querySelector("#formDelivery");
+    if (fd) fd.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      crearDelivery({
+        referencia: raiz.querySelector("#dRef").value.trim() || "Pedido delivery",
+        items: [{ saborId: raiz.querySelector("#dSabor").value, cantidad: Number(raiz.querySelector("#dCantidad").value) || 1 }]
+      });
+    });
+  }
+
+  // js/vistas/pase.js
+  var pase_exports = {};
+  __export(pase_exports, {
+    html: () => html3,
+    montar: () => montar3
+  });
+  var CLAVE_PASADOR = "rodizza-ritmo-pasador";
+  var pasadorActivo = (() => {
+    try {
+      return localStorage.getItem(CLAVE_PASADOR) || "p1";
+    } catch (e) {
+      return "p1";
+    }
+  })();
+  var mesaDestino = {};
+  function selectorPasador(st) {
+    return `<div class="selector-rol">
+    <span class="muted">Estoy pasando como:</span>
+    <div class="segmentado">
+      ${st.pasadores.map((p) => `<button class="seg ${p.id === pasadorActivo ? "act" : ""}" data-pasador="${p.id}">${icono("sala")}${esc(p.nombre)}</button>`).join("")}
+    </div>
+  </div>`;
+  }
+  function panelRuta(st) {
+    const rutas = rutaPasadores(st);
+    const mia = rutas.find((r2) => r2.id === pasadorActivo) || rutas[0];
+    const siguiente = proximaAreaSinServicio(st);
+    if (!mia) return "";
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("ruta")} Mi ruta</h2>
+      <span class="muted">Repartida seg\xFAn d\xF3nde est\xE1 sentada la gente y cu\xE1ntos pasadores hay. No es una zona cerrada: si sobran porciones, sigue a la pr\xF3xima \xE1rea.</span></div>
+    <div class="ruta-cajas">
+      <div class="ruta-caja destacada">
+        <span class="rc-tit">${icono("ruta")} Empezar por</span>
+        <b>${mia.areaInicio ? esc(nombreArea(mia.areaInicio)) : "Sin mesas activas"}</b>
+        <small>${mia.pendientes.length ? `${mia.pendientes.length} mesa(s) esperando` : "sin mesas atrasadas en mis \xE1reas"}</small>
+      </div>
+      <div class="ruta-caja">
+        <span class="rc-tit">${icono("completada")} \xDAltimo punto atendido</span>
+        <b>${mia.ultimaAreaAtendida ? esc(nombreArea(mia.ultimaAreaAtendida)) : "\u2014"}</b>
+        <small>${mia.ultimaEntregaEn ? fmtHora(mia.ultimaEntregaEn) + " \xB7 " + mia.entregas + " entregas" : "sin entregas registradas"}</small>
+      </div>
+      <div class="ruta-caja ${siguiente ? "alerta" : ""}">
+        <span class="rc-tit">${icono("alerta")} \xC1rea que m\xE1s espera</span>
+        <b>${siguiente ? esc(nombreArea(siguiente)) : "Ninguna"}</b>
+        <small>${siguiente ? "contin\xFAa aqu\xED aunque no sea tu \xE1rea" : "todas las \xE1reas atendidas"}</small>
+      </div>
+    </div>
+    <h3>Mis \xE1reas asignadas</h3>
+    <div class="chips">
+      ${mia.areas.length ? mia.areas.map((a) => chip(`${esc(a.nombre)} \xB7 ${a.comensales} personas \xB7 ${a.mesasOcupadas} mesas`, a.mesasSinServicio ? "c-alerta" : "", "mesa")).join("") : chip("Sin \xE1reas con mesas ocupadas", "c-neutro")}
+    </div>
+  </section>`;
+  }
+  function panelListas(st) {
+    const listas = produccionPorEstado(st, "lista");
+    const ocupadas = st.mesas.filter((m) => m.estado === "ocupada");
+    const rutas = rutaPasadores(st);
+    const mia = rutas.find((r2) => r2.id === pasadorActivo) || rutas[0];
+    const espera = mesasSinServicio(st);
+    const sugerida = (espera.find((x) => mia?.areas.some((a) => a.id === x.mesa.area)) || espera[0])?.mesa.id || "";
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("lista")} Listas en el pase</h2>
+      <span class="muted">Confirmar la entrega registra el inventario y reinicia el reloj de la mesa</span></div>
+    ${listas.length ? `<ul class="pizzas">${listas.map((p) => {
+      const tomada = p.recogidaPor;
+      const quien = tomada ? (st.pasadores.find((x) => x.id === tomada) || {}).nombre : null;
+      const destinoFijo = p.destinoTipo === "mesa" && p.destinoId;
+      const elegida = mesaDestino[p.id] || (destinoFijo ? p.destinoId : sugerida);
+      return `<li class="pz ${tomada && tomada !== pasadorActivo ? "pz-ajena" : ""}">
+        <div class="pz-info">
+          <b class="pz-sabor">${esc(nombreSabor(p.saborId))} <span class="cant">\xD7${p.cantidad}</span></b>
+          <div class="pz-meta">
+            ${etiquetaEstado(p.estado)}
+            <span class="destino">${icono("mesa")} ${esc(textoDestino(p))}</span>
+            ${p.tipoSolicitud ? etiquetaTipo(p.tipoSolicitud) : ""}
+            <span class="tiempo muted">${icono("reloj")} ${minutosEnEstado(st, p)}\u2032 en el pase</span>
+            ${tomada ? chip(`en mano de ${esc(quien || "otro pasador")}`, tomada === pasadorActivo ? "c-ok" : "c-alerta", "sala") : ""}
+          </div>
+        </div>
+        <div class="pz-acc">
+          <button class="btn pequeno" data-recoger="${p.id}">${icono("sala")} ${tomada === pasadorActivo ? "Devolver al pase" : "Recog\xED"}</button>
+          ${destinoFijo ? `<button class="btn pequeno primario" data-entregar="${p.id}" data-mesa="${p.destinoId}">${icono("completada")} Entregar en ${esc(p.destinoId)}</button>` : `<span class="entrega-libre">
+                 <select data-destino="${p.id}" aria-label="Mesa de destino">
+                   <option value="">\xBFA qu\xE9 mesa?</option>
+                   ${ocupadas.slice().sort((a, b) => minutosSinServicio(st, b) - minutosSinServicio(st, a)).map((m) => `<option value="${m.id}" ${elegida === m.id ? "selected" : ""}>Mesa ${esc(m.id)} \xB7 ${esc(nombreArea(m.area))} \xB7 ${minutosSinServicio(st, m)}\u2032 sin pizza${m.id === sugerida ? " \xB7 sugerida" : ""}</option>`).join("")}
+                 </select>
+                 <button class="btn pequeno primario" data-entregar="${p.id}">${icono("completada")} Confirmar entrega</button>
+               </span>`}
+        </div>
+      </li>`;
+    }).join("")}</ul>` : vacio("Nada listo en el pase por ahora.", "lista")}
+  </section>`;
+  }
+  function panelPendientes(st) {
+    const pendientes = mesasSinServicio(st);
+    const areas = resumenPorArea(st).filter((a) => a.mesasOcupadas);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("alerta")} Mesas que llevan rato sin pizza</h2>
+      <span class="muted">Umbral actual: ${st.umbrales.sinServicioAdvertenciaMin} min \xB7 hip\xF3tesis editable</span></div>
+    ${pendientes.length ? `<ul class="lista-espera">${pendientes.map((x) => `
+      <li class="${x.minutos >= st.umbrales.sinServicioSaturadoMin ? "critica" : ""}">
+        ${icono("mesa")}<b>Mesa ${esc(x.mesa.id)}</b>
+        ${chip(esc(nombreArea(x.mesa.area)), "", "ruta")}
+        ${chip(`${x.mesa.comensales} personas`, "", "personas")}
+        ${chip(`${x.minutos}\u2032 sin pizza`, x.minutos >= st.umbrales.sinServicioSaturadoMin ? "c-alerta" : "", "reloj")}
+        ${chip(`${x.mesa.pizzasRecibidas} pizzas recibidas`, "", "completada")}
+      </li>`).join("")}</ul>` : vacio("Todas las mesas activas recibieron pizza hace poco.", "completada")}
+    <h3>Carga por \xE1rea</h3>
+    <div class="chips">${areas.map((a) => chip(`${esc(a.nombre)} \xB7 ${a.comensales} personas \xB7 peor espera ${a.peorEspera}\u2032`, a.peorEspera >= st.umbrales.sinServicioAdvertenciaMin ? "c-alerta" : "", "mesa")).join("") || chip("Sin mesas ocupadas", "c-neutro")}</div>
+  </section>`;
+  }
+  function panelBloqueos(st) {
+    const b = saboresBloqueados(st);
+    if (!b.length) return "";
+    return `<section class="panel aviso-panel">
+    <div class="panel-cab"><h2>${icono("nodisponible")} Sabores bloqueados</h2></div>
+    <div class="chips">${b.map((x) => chip(`${esc(x.nombre)} \xB7 ${esc(x.motivo)}`, "c-bloqueado", "nodisponible")).join("")}</div>
+  </section>`;
+  }
+  function html3(st) {
+    return `
+  ${franjaSenal(st)}
+  ${selectorPasador(st)}
+  ${panelRuta(st)}
+  ${panelListas(st)}
+  ${panelPendientes(st)}
+  ${panelBloqueos(st)}
+  ${panelesCompartidos(st)}`;
+  }
+  function montar3(raiz, st) {
+    raiz.querySelectorAll("[data-pasador]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        pasadorActivo = btn.dataset.pasador;
+        try {
+          localStorage.setItem(CLAVE_PASADOR, pasadorActivo);
+        } catch (e) {
+        }
+        window.dispatchEvent(new CustomEvent("redibujar"));
+      });
+    });
+    raiz.querySelectorAll("[data-destino]").forEach((sel) => {
+      sel.addEventListener("change", () => {
+        mesaDestino[sel.dataset.destino] = sel.value;
+      });
+    });
+    raiz.querySelectorAll("[data-recoger]").forEach((btn) => {
+      btn.addEventListener("click", () => marcarRecogida(btn.dataset.recoger, pasadorActivo));
+    });
+    raiz.querySelectorAll("[data-entregar]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.entregar;
+        const mesa = btn.dataset.mesa || mesaDestino[id] || raiz.querySelector(`[data-destino="${id}"]`)?.value;
+        if (!mesa) {
+          btn.closest(".entrega-libre")?.classList.add("falta");
+          return;
+        }
+        delete mesaDestino[id];
+        confirmarEntrega(id, mesa, pasadorActivo);
+      });
+    });
+  }
+
+  // js/vistas/mesonero.js
+  var mesonero_exports = {};
+  __export(mesonero_exports, {
+    html: () => html4,
+    montar: () => montar4
+  });
+  var mesaSel = null;
+  var tipoSel = "favorito";
+  function listaMesas(st) {
+    const ocupadas = st.mesas.filter((m) => m.estado === "ocupada");
+    if (!ocupadas.length) return vacio("No hay mesas sentadas todav\xEDa.", "mesa");
+    return `<div class="mesas compacto">
+    ${ocupadas.map((m) => {
+      const sol = solicitudesDeMesa(st, m.id);
+      return `<button type="button" class="mesa m-ocupada ${m.id === mesaSel ? "sel" : ""} ${nivelSinServicio(st, m) !== "ok" ? "sin-servicio" : ""}" data-mesa="${m.id}">
+        <span class="mesa-cab">
+          <span class="mesa-id">${esc(m.id)}</span>
+          <span class="timer t-${nivelTiempoMesa(st, m)}">${icono("reloj")}${minutosSentada(st, m)}\u2032</span>
+        </span>
+        <span class="mesa-cuerpo">
+          <span class="mesa-personas">${icono("personas")}<b>${m.comensales}</b></span>
+          <span class="mesa-etapa">${icono(m.etapa === "postre" ? "postre" : m.etapa === "cuenta" ? "completada" : "cola")}${esc(nombreArea(m.area))}</span>
+          <span class="mesa-serv s-${nivelSinServicio(st, m)}">${icono("sala")}${minutosSinServicio(st, m)}\u2032 sin pizza</span>
+        </span>
+        <span class="mesa-marcas">
+          ${sol.filter((s) => s.tipo === "favorito").map(() => `<span class="mk ma-fav">${icono("favorito")}</span>`).join("")}
+          ${sol.filter((s) => s.tipo === "alergia").map(() => `<span class="mk ma-ale">${icono("alergia")}</span>`).join("")}
+          ${sol.filter((s) => s.tipo === "postre").length ? `<span class="mk ma-pos">${icono("postre")}</span>` : ""}
+        </span>
+      </button>`;
+    }).join("")}
+  </div>`;
+  }
+  function formularioSolicitud(st) {
+    if (!mesaSel) return `<div class="detalle vacia">${icono("mesa")}<span>Elige una mesa para agregar un favorito, una alergia o el postre.</span></div>`;
+    const m = st.mesas.find((x) => x.id === mesaSel);
+    if (!m || m.estado !== "ocupada") {
+      mesaSel = null;
+      return "";
+    }
+    const sol = solicitudesDeMesa(st, m.id);
+    const disponibles = SABORES.filter((s) => !estaBloqueado(st, s.id));
+    const postresDisp = POSTRES.filter((s) => !estaBloqueado(st, s.id));
+    const campos = {
+      favorito: `
+      <div><label for="mSabor">Sabor favorito</label><select id="mSabor" required>${opcionesSabor(disponibles)}</select></div>
+      <div><label for="mCantidad">Pizzas</label>${contador("mCantidad", 1, 1, 6)}</div>`,
+      alergia: `
+      <div><label for="mSabor">Sabor solicitado (opcional)</label><select id="mSabor">${opcionesSabor(disponibles, "", "Sin sabor espec\xEDfico")}</select></div>
+      <div class="ancho"><label for="mNota">Restricci\xF3n</label><input id="mNota" type="text" placeholder="Sin gluten \xB7 alergia a la nuez" maxlength="80" required></div>`,
+      postre: `
+      <div><label for="mSabor">Postre</label><select id="mSabor" required>${opcionesSabor(postresDisp)}</select></div>
+      <div><label for="mSabor2">Mitad y mitad (opcional)</label><select id="mSabor2">${opcionesSabor(postresDisp, "", "Sin segunda mitad")}</select></div>
+      <div><label for="mCantidad">Bases</label>${contador("mCantidad", 1, 1, 6)}</div>
+      <div><label for="mPersonas">Personas</label>${contador("mPersonas", m.comensales, 1, 20)}</div>`
+    };
+    return `<div class="detalle">
+    <div class="detalle-cab">
+      <h3>${icono("mesa")} Mesa ${esc(m.id)} \xB7 ${esc(nombreArea(m.area))}</h3>
+      <span class="chips mini">${chip(`${m.comensales} personas`, "", "personas")}${chip(`${minutosSentada(st, m)}\u2032 sentada`, "", "reloj")}${chip(`${m.pizzasRecibidas} pizzas`, "", "completada")}</span>
+    </div>
+
+    <div class="fila">
+      <label>Etapa</label>
+      <div class="segmentado">
+        <button class="seg ${m.etapa === "salada" ? "act" : ""}" data-etapa="salada">${icono("cola")}Rotaci\xF3n salada</button>
+        <button class="seg ${m.etapa === "postre" ? "act" : ""}" data-etapa="postre">${icono("postre")}Lista para postre</button>
+        <button class="seg ${m.etapa === "cuenta" ? "act" : ""}" data-etapa="cuenta">${icono("completada")}Cuenta</button>
+      </div>
+    </div>
+
+    <div class="fila">
+      <label>Tipo de solicitud</label>
+      <div class="segmentado">
+        <button class="seg ${tipoSel === "favorito" ? "act" : ""}" data-tipo="favorito">${icono("favorito")}Favorito</button>
+        <button class="seg ${tipoSel === "alergia" ? "act" : ""}" data-tipo="alergia">${icono("alergia")}Alergia</button>
+        <button class="seg ${tipoSel === "postre" ? "act" : ""}" data-tipo="postre">${icono("postre")}Postre</button>
+      </div>
+    </div>
+
+    <form class="form-linea" id="formSolicitud">
+      ${campos[tipoSel]}
+      <button class="btn primario" type="submit">${icono("mas")} Enviar a cocina</button>
+    </form>
+
+    <div class="fila">
+      <label>Solicitudes de esta mesa</label>
+      ${sol.length ? `<ul class="lista-sol">${sol.map((s) => `
+        <li>
+          <div>${etiquetaTipo(s.tipo)} ${lineaSolicitud(s)} ${s.nota ? `<span class="muted">\xB7 ${esc(s.nota)}</span>` : ""}
+            ${s.estado === "en_produccion" ? chip("cocina la est\xE1 haciendo", "c-lista", "preparacion") : chip("esperando cocina", "", "reloj")}</div>
+          <button class="btn pequeno" data-cancelar-sol="${s.id}">Quitar</button>
+        </li>`).join("")}</ul>` : '<p class="muted">Sin solicitudes abiertas.</p>'}
+    </div>
+  </div>`;
+  }
+  function panelCocina(st) {
+    const listas = produccionPorEstado(st, "lista");
+    const horno = produccionPorEstado(st, "en_horno");
+    const proximas = colaRotacion(st, 4);
+    const bloq = saboresBloqueados(st);
+    return `<section class="panel">
+    <div class="panel-cab"><h2>${icono("horno")} Qu\xE9 est\xE1 haciendo cocina</h2>
+      <span class="muted">Solo lectura \xB7 el mesonero no pasa pizzas</span></div>
+    <h3>En el pase</h3>
+    <div class="chips">${listas.length ? listas.map((p) => chip(`${esc(nombreSabor(p.saborId))} \xD7${p.cantidad}`, "c-lista", "lista")).join("") : chip("Nada listo", "c-neutro", "lista")}</div>
+    <h3>En horno</h3>
+    <div class="chips">${horno.length ? horno.map((p) => chip(`${esc(nombreSabor(p.saborId))} \xD7${p.cantidad}`, "c-horno", "horno")).join("") : chip("Horno libre", "c-neutro", "horno")}</div>
+    <h3>Pr\xF3ximas en la rotaci\xF3n</h3>
+    <div class="chips">${proximas.map((e) => chip(esc(nombreSabor(e.saborId)), e.origen === "solicitud" ? "c-favorito" : "", e.origen === "solicitud" ? "favorito" : "cola")).join("")}</div>
+    <h3>No disponibles ahora</h3>
+    <div class="chips">${bloq.length ? bloq.map((b) => chip(`${esc(b.nombre)} \xB7 ${esc(b.motivo)}${b.minutos && !b.vencido ? ` \xB7 ${b.restante} min` : ""}`, "c-bloqueado", "nodisponible")).join("") : chip("Todos los sabores disponibles", "c-ok", "completada")}</div>
+  </section>`;
+  }
+  function html4(st) {
+    return `
+  ${franjaSenal(st)}
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("mesa")} Mis mesas</h2>
+      <span class="muted">Toca una mesa para registrar una solicitud</span></div>
+    ${listaMesas(st)}
+    ${formularioSolicitud(st)}
+  </section>
+  ${panelCocina(st)}`;
+  }
+  function montar4(raiz, st) {
+    activarContadores(raiz);
+    raiz.querySelectorAll("[data-mesa]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        mesaSel = mesaSel === btn.dataset.mesa ? null : btn.dataset.mesa;
+        window.dispatchEvent(new CustomEvent("redibujar"));
+      });
+    });
+    raiz.querySelectorAll("[data-tipo]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        tipoSel = btn.dataset.tipo;
+        window.dispatchEvent(new CustomEvent("redibujar"));
+      });
+    });
+    raiz.querySelectorAll("[data-etapa]").forEach((btn) => {
+      btn.addEventListener("click", () => cambiarEtapa(mesaSel, btn.dataset.etapa, "mesonero"));
+    });
+    raiz.querySelectorAll("[data-cancelar-sol]").forEach((btn) => {
+      btn.addEventListener("click", () => cancelarSolicitud(btn.dataset.cancelarSol));
+    });
+    const form = raiz.querySelector("#formSolicitud");
+    if (form) form.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const m = st.mesas.find((x) => x.id === mesaSel);
+      if (!m) return;
+      crearSolicitud({
+        tipo: tipoSel,
+        saborId: raiz.querySelector("#mSabor")?.value || "",
+        saborId2: raiz.querySelector("#mSabor2")?.value || "",
+        mesaId: m.id,
+        area: m.area,
+        cantidad: Number(raiz.querySelector("#mCantidad")?.value) || 1,
+        personas: Number(raiz.querySelector("#mPersonas")?.value) || 0,
+        nota: raiz.querySelector("#mNota")?.value.trim() || ""
+      }, "mesonero");
+    });
+  }
+
+  // js/vistas/simulacion.js
+  var simulacion_exports = {};
+  __export(simulacion_exports, {
+    html: () => html5,
+    montar: () => montar5
+  });
+
+  // js/escenarios.js
+  var min = (n) => n * 6e4;
+  function construirEscenario(id) {
+    const st = estadoVacio();
+    st.escenario = id;
+    if (id === "vacio") return st;
+    if (id === "pico") return escenarioPico(st);
+    return st;
+  }
+  function escenarioPico(st) {
+    const t = Date.now();
+    const sentar = (mesaId, personas, hace, ultimoServicioHace, etapa = "salada", pizzas = 0) => {
+      const m = st.mesas.find((x) => x.id === mesaId);
+      if (!m) return;
+      m.estado = "ocupada";
+      m.comensales = personas;
+      m.sentadaEn = t - min(hace);
+      m.etapa = etapa;
+      m.pizzasRecibidas = pizzas;
+      m.ultimoServicioEn = ultimoServicioHace === null ? null : t - min(ultimoServicioHace);
+    };
+    sentar("R1", 4, 35, 4, "salada", 5);
+    sentar("R2", 4, 78, 9, "postre", 9);
+    sentar("R3", 6, 22, 3, "salada", 3);
+    sentar("R4", 6, 55, 11, "salada", 6);
+    sentar("R6", 8, 12, null, "salada", 0);
+    sentar("S1", 4, 64, 6, "salada", 7);
+    sentar("S4", 6, 40, 5, "salada", 5);
+    sentar("S5", 6, 18, 7, "salada", 2);
+    sentar("RO1", 4, 82, 14, "cuenta", 8);
+    sentar("RO3", 6, 30, 4, "salada", 4);
+    sentar("V1", 12, 48, 6, "salada", 9);
+    sentar("T1", 4, 44, 16, "salada", 3);
+    sentar("T3", 6, 26, 13, "salada", 2);
+    sentar("T4", 6, 15, null, "salada", 0);
+    st.reservas = [
+      { id: nuevoId("res"), nombre: "Grupo Pecchio", personas: 12, hora: t + min(18), area: "vip", mesaId: "", estado: "pendiente", creadaEn: t - min(200) },
+      { id: nuevoId("res"), nombre: "Familia R\xEDos", personas: 6, hora: t + min(45), area: "sala", mesaId: "", estado: "pendiente", creadaEn: t - min(120) },
+      { id: nuevoId("res"), nombre: "Mesa Duarte", personas: 4, hora: t - min(5), area: "", mesaId: "", estado: "pendiente", creadaEn: t - min(90) }
+    ];
+    st.solicitudes = [
+      { id: nuevoId("sol"), tipo: "favorito", saborId: "pepperoni-picante", saborId2: "", mesaId: "S5", area: "sala", cantidad: 1, personas: 0, nota: "", estado: "pendiente", adelantada: false, creadaEn: t - min(6), creadaPor: "mesonero" },
+      { id: nuevoId("sol"), tipo: "favorito", saborId: "cochino-frito", saborId2: "", mesaId: "V1", area: "vip", cantidad: 2, personas: 0, nota: "Mesa grande", estado: "pendiente", adelantada: false, creadaEn: t - min(3), creadaPor: "mesonero" },
+      { id: nuevoId("sol"), tipo: "alergia", saborId: "margarita", saborId2: "", mesaId: "R3", area: "rodizza", cantidad: 1, personas: 0, nota: "Sin gluten \xB7 base aparte", estado: "pendiente", adelantada: false, creadaEn: t - min(9), creadaPor: "mesonero" },
+      { id: nuevoId("sol"), tipo: "postre", saborId: "tiramisu", saborId2: "nutella", mesaId: "R2", area: "rodizza", cantidad: 2, personas: 4, nota: "", estado: "pendiente", adelantada: false, creadaEn: t - min(2), creadaPor: "mesonero" }
+    ];
+    const pizza = (saborId, cantidad, estado2, haceMin, destinoTipo = "rotacion", destinoId = "", extra = {}) => ({
+      id: nuevoId("pz"),
+      saborId,
+      saborId2: "",
+      cantidad,
+      destinoTipo,
+      destinoId,
+      tipoSolicitud: extra.tipoSolicitud || null,
+      solicitudId: null,
+      deliveryId: extra.deliveryId || null,
+      nota: extra.nota || "",
+      estado: estado2,
+      creadoEn: t - min(haceMin + 2),
+      estadoDesde: t - min(haceMin),
+      inventarioRegistrado: false,
+      historial: [{ estado: estado2, ts: t - min(haceMin), rol: "cocina" }]
+    });
+    const delId = nuevoId("del");
+    st.deliveries = [
+      { id: delId, referencia: "Pedido #241", items: [{ saborId: "hawaiana-caliente", cantidad: 2 }], nota: "", estado: "en_cola", creadoEn: t - min(8) },
+      { id: nuevoId("del"), referencia: "Pedido #242", items: [{ saborId: "pollo-bbq", cantidad: 1 }], nota: "", estado: "en_cola", creadoEn: t - min(3) }
+    ];
+    st.produccion = [
+      pizza("margarita", 2, "en_horno", 4),
+      pizza("pepperoni", 3, "en_horno", 2),
+      pizza("caprese", 1, "lista", 3),
+      pizza("italiana", 2, "en_preparacion", 6),
+      pizza("champinones", 2, "en_cola", 7),
+      pizza("hawaiana-caliente", 2, "en_cola", 8, "delivery", "Pedido #241", { tipoSolicitud: "delivery", deliveryId: delId }),
+      pizza("pollo-bbq", 1, "en_cola", 3, "delivery", "Pedido #242", { tipoSolicitud: "delivery" })
+    ];
+    st.cursorSecuencia = 5;
+    return st;
+  }
+
+  // js/vistas/simulacion.js
+  var ETIQUETAS_UMBRAL = {
+    ocupacionAdvertencia: "% ocupaci\xF3n \u2192 advertencia",
+    ocupacionSaturado: "% ocupaci\xF3n \u2192 saturado",
+    proyeccionAdvertencia: "% demanda proyectada \u2192 advertencia",
+    proyeccionSaturado: "% demanda proyectada \u2192 saturado",
+    reservaGrandePersonas: "Personas que hacen \u201Cgrupo grande\u201D",
+    reservaProximaMin: "Ventana de reserva pr\xF3xima (min)",
+    deliveryAdvertencia: "Pedidos delivery \u2192 advertencia",
+    deliverySaturado: "Pedidos delivery \u2192 saturado",
+    usoHornosAdvertencia: "% de racks \u2192 advertencia",
+    colaAdvertencia: "Pizzas en cola \u2192 advertencia",
+    colaSaturado: "Pizzas en cola \u2192 saturado",
+    retrasoAdvertenciaMin: "Minutos en un estado \u2192 retraso",
+    retrasoSaturadoMin: "Minutos en un estado \u2192 retraso severo",
+    sinServicioAdvertenciaMin: "Minutos sin pizza \u2192 advertencia",
+    sinServicioSaturadoMin: "Minutos sin pizza \u2192 cr\xEDtico",
+    mesasSinServicioSaturado: "Mesas cr\xEDticas \u2192 saturado",
+    limiteMesaMin: "Pol\xEDtica de tiempo por mesa (min)",
+    avisoMesaMin: "Minutos para poner el timer en rojo",
+    racksTotales: "Racks de horno del turno",
+    personasPorPizza: "Personas por pizza (consumo estimado)",
+    pasadoresPorTurno: "Pasadores en el turno"
+  };
+  function html5(st) {
+    const inv = totalesInventario(st);
+    const s = senal(st);
+    return `
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("ruta")} Escenario de la sesi\xF3n</h2>
+      <span class="muted">Escenario actual: <b>${esc((ESCENARIOS.find((e) => e.id === st.escenario) || {}).nombre || st.escenario)}</b></span></div>
+    <div class="escenarios">
+      ${ESCENARIOS.map((e) => `<button class="tarjeta-esc ${st.escenario === e.id ? "act" : ""}" data-escenario="${e.id}">
+        <b>${esc(e.nombre)}</b><small>${esc(e.descripcion)}</small></button>`).join("")}
+    </div>
+    <div class="acciones">
+      <button class="btn peligro" data-accion="reiniciar">${icono("cancelada")} Reiniciar escenario</button>
+      <span class="muted">Borra todos los datos del turno guardados en este navegador.</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("reloj")} Reloj del prototipo</h2>
+      <span class="muted">Adelantar el reloj permite mostrar el l\xEDmite de ${st.umbrales.limiteMesaMin} min y las mesas sin servicio sin esperar de verdad.</span></div>
+    <div class="acciones">
+      ${[5, 15, 30, 60].map((n) => `<button class="btn" data-reloj="${n}">+${n} min</button>`).join("")}
+      <span class="chips">${chip("Hora del tablero: " + fmtHora(ahora()), "", "reloj")}${chip("Desfase aplicado: " + Math.round((st.desfaseMs || 0) / 6e4) + " min")}</span>
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("alerta")} Umbrales \xB7 hip\xF3tesis editables</h2>
+      <span class="muted">Ninguno es pol\xEDtica de Rodizza. Estado actual de la se\xF1al: <b>${esc(s.nivel)}</b></span></div>
+    <div class="umbrales">
+      ${Object.keys(ETIQUETAS_UMBRAL).map((k) => `
+        <label class="umbral">
+          <span>${esc(ETIQUETAS_UMBRAL[k])}</span>
+          <input type="number" data-umbral="${k}" value="${st.umbrales[k]}" step="${k === "personasPorPizza" ? "0.5" : "1"}" min="0">
+        </label>`).join("")}
+    </div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("cola")} Secuencia base del rodizio</h2>
+      <span class="muted">Confirmado en la sesi\xF3n: las m\xE1s ligeras primero. El orden exacto es una hip\xF3tesis.</span></div>
+    <ol class="secuencia">
+      ${st.secuenciaBase.map((id, i) => `<li class="${i === st.cursorSecuencia ? "act" : ""}">
+        <span>${i + 1}. ${esc(nombreSabor(id))}${i === st.cursorSecuencia ? " \xB7 pr\xF3xima" : ""}</span>
+        <span class="pz-acc">
+          <button class="btn pequeno" data-mover="${i}" data-delta="-1" aria-label="Subir">\u2191</button>
+          <button class="btn pequeno" data-mover="${i}" data-delta="1" aria-label="Bajar">\u2193</button>
+          <button class="btn pequeno" data-quitar="${i}" aria-label="Quitar">\u2715</button>
+        </span>
+      </li>`).join("")}
+    </ol>
+    <form class="form-linea" id="formSecuencia">
+      <div><label for="sSabor">Agregar sabor a la secuencia</label><select id="sSabor">${opcionesSabor([...SABORES, ...POSTRES])}</select></div>
+      <button class="btn primario" type="submit">${icono("mas")} Agregar</button>
+    </form>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("completada")} Registro de salidas (inventario)</h2>
+      <span class="muted">Generado autom\xE1ticamente cuando una pizza pasa a \u201CEn sala\u201D. Sin conteo en papel.</span></div>
+    <div class="chips">
+      ${chip(`${inv.total} pizzas registradas`, "", "completada")}
+      ${chip(`${inv.aMesa} a mesa`, "", "mesa")}
+      ${chip(`${inv.aDelivery} a delivery`, "", "delivery")}
+    </div>
+    ${inv.porSabor.length ? `<div class="chips">${inv.porSabor.map((x) => chip(`${esc(nombreSabor(x.saborId))} \xB7 ${x.cantidad}`)).join("")}</div>` : vacio("Todav\xEDa no sali\xF3 ninguna pizza.", "completada")}
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("delivery")} Integraciones</h2>
+      <span class="muted">Este prototipo no se conecta a ning\xFAn sistema: los datos son de simulaci\xF3n.</span></div>
+    <ul class="lista-int">
+      ${INTEGRACIONES.map((i) => `<li>
+        <div><b>${esc(i.nombre)}</b><small>${esc(i.detalle)}</small></div>
+        ${chip(i.estado === "manual" ? "Carga manual" : "No conectado", i.estado === "manual" ? "" : "c-neutro", "nodisponible")}
+      </li>`).join("")}
+    </ul>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("sala")} Roles y dispositivos</h2>
+      <span class="muted">Supuesto de hardware para la prueba</span></div>
+    <div class="chips">${ROLES.filter((r2) => r2.id !== "simulacion").map((r2) => chip(`${esc(r2.nombre)} \xB7 ${esc(r2.dispositivo)}`, "", "sala")).join("")}</div>
+  </section>
+
+  <section class="panel">
+    <div class="panel-cab"><h2>${icono("cola")} Bit\xE1cora del turno</h2>
+      <span class="muted">${st.bitacora.length} acciones registradas</span></div>
+    ${st.bitacora.length ? `<ul class="bitacora">${st.bitacora.slice(0, 40).map((l) => `
+      <li><span class="hora">${fmtHora(l.ts)}</span><span class="rol">${esc(l.rol)}</span><span>${esc(l.texto)}</span></li>`).join("")}</ul>` : vacio("Sin acciones registradas todav\xEDa.", "cola")}
+  </section>`;
+  }
+  function montar5(raiz, st) {
+    raiz.querySelectorAll("[data-escenario]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const id = btn.dataset.escenario;
+        reemplazarEstado(construirEscenario(id), "Carg\xF3 el escenario " + id);
+      });
+    });
+    const rein = raiz.querySelector('[data-accion="reiniciar"]');
+    if (rein) rein.addEventListener("click", () => {
+      if (confirm("\xBFReiniciar el escenario y borrar los datos del turno?")) reiniciar();
+    });
+    raiz.querySelectorAll("[data-reloj]").forEach((btn) => {
+      btn.addEventListener("click", () => adelantarReloj(Number(btn.dataset.reloj)));
+    });
+    raiz.querySelectorAll("[data-umbral]").forEach((input) => {
+      input.addEventListener("change", () => ajustarUmbral(input.dataset.umbral, input.value));
+    });
+    raiz.querySelectorAll("[data-mover]").forEach((btn) => {
+      btn.addEventListener("click", () => moverEnSecuencia(Number(btn.dataset.mover), Number(btn.dataset.delta)));
+    });
+    raiz.querySelectorAll("[data-quitar]").forEach((btn) => {
+      btn.addEventListener("click", () => quitarDeSecuencia(Number(btn.dataset.quitar)));
+    });
+    const fs = raiz.querySelector("#formSecuencia");
+    if (fs) fs.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+      const v = raiz.querySelector("#sSabor").value;
+      if (v) agregarASecuencia(v);
+    });
+  }
+
+  // js/app.js
+  var VISTAS = { sala: sala_exports, cocina: cocina_exports, pase: pase_exports, mesonero: mesonero_exports, simulacion: simulacion_exports };
+  var CLAVE_ROL = "rodizza-ritmo-rol";
+  var rolActivo = (() => {
+    try {
+      return localStorage.getItem(CLAVE_ROL) || "sala";
+    } catch (e) {
+      return "sala";
+    }
+  })();
+  if (!VISTAS[rolActivo]) rolActivo = "sala";
+  var contenedor = document.getElementById("vista");
+  var nav = document.getElementById("nav");
+  var barra = document.getElementById("barra-global");
+  function dibujarNav() {
+    nav.innerHTML = ROLES.map((r2) => `
+    <button class="tab ${r2.id === rolActivo ? "act" : ""}" data-rol="${r2.id}" aria-current="${r2.id === rolActivo ? "page" : "false"}">
+      ${icono(iconoRol(r2.id))}<span>${esc(r2.nombre)}</span>
+    </button>`).join("");
+    nav.querySelectorAll("[data-rol]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        rolActivo = btn.dataset.rol;
+        try {
+          localStorage.setItem(CLAVE_ROL, rolActivo);
+        } catch (e) {
+        }
+        dibujarNav();
+        dibujar();
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+    });
+  }
+  function iconoRol(id) {
+    return { sala: "mesa", cocina: "horno", pase: "ruta", mesonero: "personas", simulacion: "reloj" }[id] || "cola";
+  }
+  function dibujarBarra() {
+    const st = obtener();
+    const rol = ROLES.find((r2) => r2.id === rolActivo);
+    barra.innerHTML = `
+    <span class="disp">${icono("sala")} ${esc(rol.dispositivo)}</span>
+    <span class="hora">${icono("reloj")} ${fmtHora(ahora())}</span>
+    <button class="btn pequeno" id="btnDeshacer" ${puedeDeshacer() ? "" : "disabled"} title="${esc(ultimaAccion() || "")}">
+      ${icono("deshacer")} Deshacer${puedeDeshacer() ? "" : ""}
+    </button>`;
+    const btn = document.getElementById("btnDeshacer");
+    if (btn) btn.addEventListener("click", () => deshacer());
+  }
+  function dibujar() {
+    const st = obtener();
+    const vista = VISTAS[rolActivo];
+    contenedor.innerHTML = vista.html(st);
+    vista.montar(contenedor, st);
+    document.body.dataset.rol = rolActivo;
+    dibujarBarra();
+  }
+  function escribiendo() {
+    const a = document.activeElement;
+    return a && ["INPUT", "SELECT", "TEXTAREA"].includes(a.tagName) && contenedor.contains(a);
+  }
+  iniciar();
+  suscribir(() => dibujar());
+  window.addEventListener("redibujar", () => dibujar());
+  dibujarNav();
+  dibujar();
+  setInterval(() => {
+    if (!escribiendo()) dibujar();
+  }, 15e3);
+})();
+
+</script>
+</body>
+</html>
